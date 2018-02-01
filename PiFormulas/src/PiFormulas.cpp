@@ -77,6 +77,7 @@ EulerConverganceStruct eulerConvergenceSum()
 		eulerConverganceData.sum = eulerConverganceData.sum + term;
 		eulerConverganceData.itterations++;
 	}while( term > ( 1 /getPowerFloat( 10, 8 ) ) );
+	eulerConverganceData.piValue = getSqrtFloat( 6 * eulerConverganceData.sum);
 	return eulerConverganceData;
 }
 
@@ -84,6 +85,20 @@ EulerConverganceStruct eulerConvergenceSum()
 int main() {
 
 	cout.precision(dbl::max_digits10 -1);
-	cout << "!!!Hello World!!! pi value is "<<eulerConvergenceSum().sum<< endl; // prints !!!Hello World!!!
+	cout << "pi" << setfill (' ') << setw (5) << "= " << getArcTanPi() << " = 4*arctan(1)"<< endl << endl;
+	cout << "Ramanujan's pi formulas:" <<endl;
+	cout << "pi15 = " << getPi15Decimal() << endl;
+	cout << "pi16 = " << getPi16Decimal() << endl;
+	cout << "pi18 = " << getPi18Decimal() << endl;
+	cout << "pi22 = " << getPi22Decimal() << endl;
+	cout << "pi31 = " << getPi31Decimal() << endl << endl;
+	cout.precision(flt::max_digits10 -1);
+	cout << "Euler's infinite sum for pi*pi/6 = " << eulerInfiniteSum() << endl;
+	eulerConvergenceSum();
+	cout << setfill(' ') << setw(35) << "Converged to " << eulerConverganceData.sum << " after "
+			<< eulerConverganceData.itterations << " iterations" << endl << endl;
+	cout << "Euler's estimate for pi = " << eulerConverganceData.piValue << endl;
+	cout.precision(flt::max_digits10 -2);
+	cout << setfill(' ') << setw(26) << "error = " << getArcTanPi() - eulerConverganceData.piValue << endl;
 	return 0;
 }

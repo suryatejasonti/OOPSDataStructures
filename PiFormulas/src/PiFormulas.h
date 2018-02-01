@@ -8,21 +8,26 @@
 #ifndef PIFORMULAS_H_
 #define PIFORMULAS_H_
 
-#include <iostream>
-#include <cmath> /*atan*/
-#include <limits> /* To get maximum digits of precision*/
+#include <iostream> // std::cout, std::endl
+#include <iomanip> // std::setw, std::setfill
+#include <cmath> //atan
+#include <limits> // To get maximum digits of precision
 
 // namespaces for iostream etc..
 using namespace std;
 
 //Getting Numeric limit for double to dbl
 typedef std::numeric_limits<double> dbl;
+//Getting Numeric limit for float to flt
+typedef std::numeric_limits<float> flt;
+
 
 //Structures
 typedef struct
 {
 	int itterations;
 	float sum;
+	float piValue;
 }EulerConverganceStruct;
 
 
@@ -33,7 +38,11 @@ double getSqrtDouble(double base)
 {
 	return sqrt(base);
 }
-
+//Getting Square Root in float
+float getSqrtFloat(float base)
+{
+	return sqrt(base);
+}
 // Getting Power in double
 double getPowerDouble(double base, double exponent)
 {
