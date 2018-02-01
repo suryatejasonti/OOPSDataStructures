@@ -9,18 +9,11 @@
 //includes
 #include "PiFormulas.h"
 
+//Global Variables
+EulerConverganceStruct eulerConverganceData;
+
 //Function Definitions
 
-//Getting Square Root in double
-double getSqrtDouble(double base)
-{
-	return sqrt(base);
-}
-// Getting Power in double
-double getPowerDouble(double base, double exponent)
-{
-	return pow( base, exponent);
-}
 //Getting arc tan pi
 double getArcTanPi()
 {
@@ -29,45 +22,68 @@ double getArcTanPi()
 //Getting pi value upto 15 decimals
 double getPi15Decimal()
 {
-	return ( 12.0 / getSqrtDouble( 130.0 ) )
-			* log( ( 2.0 + getSqrtDouble( 5.0 ) )
-					* ( 3.0 + getSqrtDouble( 13.0 ) ) / getSqrtDouble( 2.0 ) );
+	return ( 12 / getSqrtDouble( 130 ) )
+			* log( ( 2 + getSqrtDouble( 5 ) )
+					* ( 3 + getSqrtDouble( 13 ) ) / getSqrtDouble( 2) );
 }
 //Getting pi value upto 16 decimals
 double getPi16Decimal()
 {
 
-	return ( 24.0 / getSqrtDouble( 142.0 ) )
-			* log( ( getSqrtDouble( ( 10.0 + ( 11.0 * getSqrtDouble( 2.0 ) ) ) / 4.0 ) )
-					+ ( getSqrtDouble( ( 10.0 + ( 7.0 * getSqrtDouble( 2.0 ) ) ) / 4.0 ) ) );
+	return ( 24 / getSqrtDouble( 142 ) )
+			* log( ( getSqrtDouble( ( 10 + ( 11 * getSqrtDouble( 2 ) ) ) / 4 ) )
+					+ ( getSqrtDouble( ( 10 + ( 7 * getSqrtDouble( 2 ) ) ) / 4 ) ) );
 }
 //Getting pi value upto 18 decimals
 double getPi18Decimal()
 {
-	return ( 12.0 / getSqrtDouble( 190.0 ) )
-				* log( ( ( 2.0 * getSqrtDouble( 2.0 ) ) + getSqrtDouble( 10.0 ) )
-						* ( 3 + getSqrtDouble( 10.0 ) ) ) ;
+	return ( 12 / getSqrtDouble( 190 ) )
+				* log( ( ( 2 * getSqrtDouble( 2 ) ) + getSqrtDouble( 10 ) )
+						* ( 3 + getSqrtDouble( 10 ) ) ) ;
 }
 //Getting pi value upto 22 decimals
 double getPi22Decimal()
 {
-	return ( 12.0 / getSqrtDouble( 310.0 ) )
-				* log( ( ( 3.0 + getSqrtDouble( 5.0 ) )
-						* ( 2 + getSqrtDouble( 2.0 ) )
-						* ( ( 5 + ( 2 * getSqrtDouble( 10.0 ) ) )
-								+ getSqrtDouble( 61 + (20 * getSqrtDouble( 10.0 ) ) ) ) ) / 4.0 );
+	return ( 12 / getSqrtDouble( 310 ) )
+				* log( ( ( 3 + getSqrtDouble( 5 ) )
+						* ( 2 + getSqrtDouble( 2 ) )
+						* ( ( 5 + ( 2 * getSqrtDouble( 10 ) ) )
+								+ getSqrtDouble( 61 + (20 * getSqrtDouble( 10 ) ) ) ) ) / 4 );
 }
 //Getting pi value upto 31 decimals
 double getPi31Decimal()
 {
-	return ( 4.0 / sqrt( 522.0 ) )
-				* log( sqrt(3.0) );
+	return ( 4 / getSqrtDouble( 522 ) )
+				* log( getPowerDouble( ( 5 + getSqrtDouble( 29 ) ) / getSqrtDouble( 2 ), 3 )
+						* ( ( 5 * getSqrtDouble( 29 ) ) + ( 11 * getSqrtDouble( 6 ) ) )
+						* getPowerDouble( getSqrtDouble( ( 9 + ( 3 * getSqrtDouble( 6 ) ) ) / 4 )
+								+ getSqrtDouble( ( 5 + ( 3 * getSqrtDouble( 6 ) ) ) / 4 ), 6 ) );
+}
+// Euler's infinite sum for pi*pi/6
+float eulerInfiniteSum()
+{
+	return ( getArcTanPi() * getArcTanPi() / 6);
+}
+// Euler's convergence sum towards pi
+
+EulerConverganceStruct eulerConvergenceSum()
+{
+	eulerConverganceData.itterations =1;
+	eulerConverganceData.sum = 0;
+	float term =0;
+	do
+	{
+		term = 1.0 / getSquare(eulerConverganceData.itterations);
+		eulerConverganceData.sum = eulerConverganceData.sum + term;
+		eulerConverganceData.itterations++;
+	}while( term > ( 1 /getPowerFloat( 10, 8 ) ) );
+	return eulerConverganceData;
 }
 
 //Main function
 int main() {
 
-	cout.precision(dbl::max_digits10);
-	cout << "!!!Hello World!!! pi value is "<<getPi22Decimal()<< endl; // prints !!!Hello World!!!
+	cout.precision(dbl::max_digits10 -1);
+	cout << "!!!Hello World!!! pi value is "<<eulerConvergenceSum().sum<< endl; // prints !!!Hello World!!!
 	return 0;
 }
