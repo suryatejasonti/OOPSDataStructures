@@ -65,7 +65,6 @@ float eulerInfiniteSum()
 	return ( getArcTanPi() * getArcTanPi() / 6);
 }
 // Euler's convergence sum towards pi
-
 EulerConverganceStruct eulerConvergenceSum()
 {
 	eulerConverganceData.itterations =1;
@@ -73,18 +72,20 @@ EulerConverganceStruct eulerConvergenceSum()
 	float term =0;
 	do
 	{
-		term = 1.0 / getSquare(eulerConverganceData.itterations);
-		eulerConverganceData.sum = eulerConverganceData.sum + term;
-		eulerConverganceData.itterations++;
-	}while( term > ( 1 /getPowerFloat( 10, 8 ) ) );
-	eulerConverganceData.piValue = getSqrtFloat( 6 * eulerConverganceData.sum);
+		term = 1.0 / getSquare(eulerConverganceData.itterations); // calculating fraction at every iteration
+		eulerConverganceData.sum = eulerConverganceData.sum + term; // calculating sum at every step
+		eulerConverganceData.itterations++; // adding iterations
+	}while( term > ( 1 /getPowerFloat( 10, 8 ) ) ); // Verifying each term greater than 10^-8
+	eulerConverganceData.piValue = getSqrtFloat( 6 * eulerConverganceData.sum); // Calculating final pi value
 	return eulerConverganceData;
 }
 
 //Main function
 int main() {
 
+	// Setting initial precision for double
 	cout.precision(dbl::max_digits10 -1);
+	//Use of SetFill and SetW functions from std
 	cout << "pi" << setfill (' ') << setw (5) << "= " << getArcTanPi() << " = 4*arctan(1)"<< endl << endl;
 	cout << "Ramanujan's pi formulas:" <<endl;
 	cout << "pi15 = " << getPi15Decimal() << endl;
@@ -92,12 +93,14 @@ int main() {
 	cout << "pi18 = " << getPi18Decimal() << endl;
 	cout << "pi22 = " << getPi22Decimal() << endl;
 	cout << "pi31 = " << getPi31Decimal() << endl << endl;
+	//Changing precision to float
 	cout.precision(flt::max_digits10 -1);
 	cout << "Euler's infinite sum for pi*pi/6 = " << eulerInfiniteSum() << endl;
 	eulerConvergenceSum();
 	cout << setfill(' ') << setw(35) << "Converged to " << eulerConverganceData.sum << " after "
 			<< eulerConverganceData.itterations << " iterations" << endl << endl;
 	cout << "Euler's estimate for pi = " << eulerConverganceData.piValue << endl;
+	//Changing precision of float
 	cout.precision(flt::max_digits10 -2);
 	cout << setfill(' ') << setw(26) << "error = " << getArcTanPi() - eulerConverganceData.piValue << endl;
 	return 0;
