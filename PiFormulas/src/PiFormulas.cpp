@@ -3,7 +3,7 @@
 // Author      : SuryaTSonti
 // Version     :
 // Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
+// Description : Pi Formulas from Ramanujam and Euler in C++, Ansi-style
 //============================================================================
 
 //includes
