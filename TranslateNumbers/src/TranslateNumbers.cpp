@@ -88,6 +88,7 @@ string translateTens(int n)
 
 string translateHundreds(int number)
 {
+	return "";
 }
 
 int main()
