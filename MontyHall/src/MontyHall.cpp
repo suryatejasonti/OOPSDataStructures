@@ -121,5 +121,5 @@ int main()
     cout << setfill (' ') << setw (5) << win2 << " wins if switch to the second choice" << endl;
     cout.precision(2);
     cout << endl << "Win ratio of switch over stay: " << (double)win2/win1 << endl;
-
+    return 0;
 }

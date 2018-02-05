@@ -256,5 +256,6 @@ int main()
 	cout << inside_quarter_circle(20, 1000) << endl;
 	// Approximating pi
 	cout << 4 * inside_quarter_circle(1, 10000000) << endl;
+
 	return 0;
 }
