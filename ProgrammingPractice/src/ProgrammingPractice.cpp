@@ -9,7 +9,9 @@
 #include <iostream>
 using namespace std;
 
-
+/*
+ * Question 1
+ */
 /**
    Computes the smallest of four values.
 */
@@ -54,6 +56,10 @@ double middle(int a, int b, int c, int d)
 				}
 	return 0;
 }
+/*
+ * Question 2
+ */
+
 /*
   Write a function that computes how many digits two positive
   integers m and n have in common. For example, if m is 112358 and
@@ -105,6 +111,11 @@ int digitsInCommon(int m, int n)
 	}
 	return count;
 }
+
+/*
+ * Question 3
+ */
+
 // Place any helper functions here
 
 /*
@@ -118,11 +129,132 @@ int digitsInCommon(int m, int n)
 */
 double decimal_time(int hours, int minutes, int seconds, bool pm)
 {
+	return 0.0;
+}
 
+/*
+ * Question 4
+ */
+/*
+  The Chevalier de Blasé, a notorious 17th century gambler, wanted to
+  know whether he had higher odds of winning a dice game with four
+  dice, where a win meant a pair of 5s and a pair of 6s, or a game
+  with six dice, where a win meant four sixes (and two dice
+  that are not a six).
+
+  Help him out by writing a simulation that "throws" virtual dice
+  with a random number generator.
+*/
+
+/*
+  Return a random number between 1 and 6.
+*/
+int die_toss()
+{
+   return 1 + rand() % 6;
+}
+
+/*
+  Return true if you got a pair of 5s and 6s.
+*/
+int game1_wins(int a, int b, int c, int d)
+{
+	return 0;
+}
+
+/*
+  Return true if you got four 6s.
+*/
+int game2_wins(int a, int b, int c, int d, int e, int f)
+{
+	return 0;
+}
+/*
+  Play game 1 for the given number of iterations and return the
+  number of wins.
+*/
+int game1(int iterations)
+{
+	return 0;
+}
+/*
+  Play game 2 for the given number of iterations and return the
+  number of wins.
+*/
+int game2(int iterations)
+{
+	return 0;
+}
+
+/*
+ * Question 5
+ */
+/*
+  Returns a random number between 0 and 1.
+*/
+double rand_double()
+{
+   return rand() * 1.0 / RAND_MAX;
+}
+
+/*
+  The "Las Vegas" method of finding the area of a circle works
+  as follows. Consider a square with side length r with a
+  quarter circle inscribed, like in this ASCII art:
+
+r .....
+  |    ....
+  |        ...
+  |   (x,y)   .
+  |  *         .
+  |            .
+  +------------.
+(0, 0)         r
+
+  Take a machine gun and fire bullets into the square. If
+  a bullet lands inside the quarter circle, it's a hit. Otherwise
+  it's a miss. The ratio of hits to tries is proportional to
+  the ratio of the areas of the quarter circle and the square.
+
+  Generate random points (x, y) in the square. Check whether they
+  are inside the circle. Return the ratio of hits to tries.
+
+ */
+double inside_quarter_circle(double radius, int tries)
+{
+	return 0;
 }
 int main()
 {
+	/*
+	 * Question 1
+	 */
+	cout << "!!!Hello World!!!" << middle(10, 24, 6, 5) << endl; // prints !!!Hello World!!!
+	/*
+	 * Question 2
+	 */
 	cout<< digitsInCommon(1203, 4126378) << endl;
-	//cout << "!!!Hello World!!!" << middle(10, 24, 6, 5) << endl; // prints !!!Hello World!!!
+
+	/*
+	 * Question 4
+	 */
+	srand(42);
+	cout << game1(1000) << endl;
+	cout << game2(1000) << endl;
+	cout << game1(10000) << endl;
+	cout << game2(10000) << endl;
+	cout << game1(100000) << endl;
+	cout << game2(100000) << endl;
+	cout << game1(1000000) << endl;
+	cout << game2(1000000) << endl;
+
+	/*
+	 * Question 5
+	 */
+	srand(42);
+	cout << inside_quarter_circle(1, 1000) << endl;
+	cout << inside_quarter_circle(20, 1000) << endl;
+	// Approximating pi
+	cout << 4 * inside_quarter_circle(1, 10000000) << endl;
 	return 0;
 }
