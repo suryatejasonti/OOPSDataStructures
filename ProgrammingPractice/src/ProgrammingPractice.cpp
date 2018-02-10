@@ -332,31 +332,31 @@ int main()
 	/*
 	 * Question 1
 	 */
-	//cout << "!!!Hello World!!!" << middle(10, 24, 6, 5) << endl; // prints !!!Hello World!!!
+	cout << "!!!Hello World!!!" << middle(10, 24, 6, 5) << endl; // prints !!!Hello World!!!
 	/*
 	 * Question 2
 	 */
-	//cout<< digitsInCommon(1234567890, 987654321) << endl;
+	cout<< digitsInCommon(1234567890, 987654321) << endl;
 	/*
 	 * Question 3
 	 */
-	//cout << decimal_time(9, 0, 0, false) << endl;
+	cout << decimal_time(9, 0, 0, false) << endl;
 	/*
 	 * Question 4
 	 */
-//	srand(42);
-//	cout << game1(1000) << endl;
-//	cout << game2(1000) << endl;
-//	cout << game1(10000) << endl;
-//	cout << game2(10000) << endl;
-//	cout << game1(100000) << endl;
-//	cout << game2(100000) << endl;
-//	cout << game1(1000000) << endl;
-//	cout << game2(1000000) << endl;
-//
-//	/*
-//	 * Question 5
-//	 */
+	srand(42);
+	cout << game1(1000) << endl;
+	cout << game2(1000) << endl;
+	cout << game1(10000) << endl;
+	cout << game2(10000) << endl;
+	cout << game1(100000) << endl;
+	cout << game2(100000) << endl;
+	cout << game1(1000000) << endl;
+	cout << game2(1000000) << endl;
+
+	/*
+	 * Question 5
+	 */
 	srand(42);
 	cout << inside_quarter_circle(1, 1000) << endl;
 	cout << inside_quarter_circle(20, 1000) << endl;
