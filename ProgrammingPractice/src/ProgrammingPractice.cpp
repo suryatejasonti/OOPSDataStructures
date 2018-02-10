@@ -7,7 +7,8 @@
 //============================================================================
 
 #include <iostream>
-
+#include <cmath>
+#include <cstdlib>
 
 using namespace std;
 
@@ -75,7 +76,7 @@ double middle(int a, int b, int c, int d)
      // Process digit
   }
 */
-int n1, n2, n3, n4, n5, n6, n7, n8, n9, n0;
+int n1=0, n2=0, n3=0, n4=0, n5=0, n6=0, n7=0, n8=0, n9=0, n0=0;
 // Add any helper functions here
 bool searchNumber(int number)
 {
@@ -83,71 +84,81 @@ bool searchNumber(int number)
 	{
 		case 0:
 			if(n0 == 0)
-				return true;
-			else
+			{
 				n0++	;
+				return false;
+			}
 			break;
 		case 1:
 			if(n1 == 0)
-				return true;
-			else
+			{
 				n1++	;
+				return false;
+			}
 			break;
 		case 2:
 			if(n2 == 0)
-				return true;
-			else
+			{
 				n2++	;
+				return false;
+			}
 			break;
 		case 3:
 			if(n3 == 0)
-				return true;
-			else
+			{
 				n3++	;
+				return false;
+			}
 			break;
 		case 4:
 			if(n4 == 0)
-				return true;
-			else
+			{
 				n4++	;
+				return false;
+			}
 			break;
 		case 5:
 			if(n5 == 0)
-				return true;
-			else
+			{
 				n5++	;
+				return false;
+			}
 			break;
 		case 6:
 			if(n6 == 0)
-				return true;
-			else
+			{
 				n6++	;
+				return false;
+			}
 			break;
 		case 7:
 			if(n7 == 0)
-				return true;
-			else
+			{
 				n7++	;
+				return false;
+			}
 			break;
 		case 8:
 			if(n8 == 0)
-				return true;
-			else
+			{
 				n8++	;
+				return false;
+			}
 			break;
 		case 9:
 			if(n9 == 0)
-				return true;
-			else
+			{
 				n9++	;
+				return false;
+			}
 			break;
 	}
-	return false;
+	return true;
 }
 int digitsInCommon(int m, int n)
 {
 	int second =m;//Store second number:- n, to loop this again with digits in first number.
-	int digits[10]; int count =0; // variables to save different digits and digits common counter.
+	int count =0; // variables to save different digits and digits common counter.
 	for( int i =0; n > 0 ; i++ )
 	{
 		int nNumber = n % 10;
@@ -157,21 +168,10 @@ int digitsInCommon(int m, int n)
 		{
 			int mNumber = m % 10;
 			m = m / 10;
-			if( nNumber == mNumber ) // check if you found a match.
+
+			if( nNumber == mNumber && !searchNumber(nNumber)) // check if you found a match.
 			{
-				int k=0;int repeat=0;
-				do{
-					if( digits[k] != nNumber )
-					{
-						repeat++;
-					}
-					k++;
-				}while( k < count ); // loop to identify digit already pre exists and is counted in digits.
-				if( repeat > 0 ) // Save counter and different digits if no repetition is found.
-				{
-					digits[count] = nNumber;
-					count++;
-				}
+				count++; // Save counter and different digits if no repetition is found.
 			}
 		}
 	}
@@ -183,7 +183,12 @@ int digitsInCommon(int m, int n)
  */
 
 // Place any helper functions here
-
+double ceil(double v, int p)
+{
+  v *= pow(10, p);
+  v = ceil(v);
+  v /= pow(10, p);
+}
 /*
   Write a function that converts US time with hours, minutes, seconds,
   am/pm to "decimal time". In decimal time, the day has ten "hours",
@@ -198,9 +203,9 @@ double decimal_time(int hours, int minutes, int seconds, bool pm)
 
 	if( hours <= 0 || minutes < 0 || seconds < 0 || hours > 24 || minutes > 60 || seconds > 60 )
 		return -1;
-	return ( ( pm == true ? ( hours == 12 ? 12 : ( hours + 12 ) ) : ( hours == 12 ? 0 : hours ) ) * ( 10.0 / 24 ) )
-				+ ( minutes / ( 24.0 * 60.0 * 0.1 ) )
-				+ ( seconds / ( 24.0 * 60.0 * 60.0 * 0.1 ) );
+	return ceil( ( ( pm == true ? ( hours == 12 ? 12 : ( hours + 12 ) ) : ( hours == 12 ? 0 : hours ) ) * ( 10.0 / 24 ) )
+					+ ( minutes / ( 24.0 * 60.0 * 0.1 ) )
+					+ ( seconds / ( 24.0 * 60.0 * 60.0 * 0.1 ) ) , 4);
 }
 
 /*
@@ -230,7 +235,12 @@ int die_toss()
 */
 int game1_wins(int a, int b, int c, int d)
 {
-	return 0;
+	return ( ( a == 5 && b == 5 && c == 6 && d == 6 )
+			|| ( a == 6 && b == 6 && c == 5 && d == 5 )
+			|| ( a == 5 && b == 6 && c == 5 && d == 6 )
+			|| ( a == 6 && b == 5 && c == 6 && d == 5 )
+			|| ( a == 5 && b == 6 && c == 6 && d == 5 )
+			|| ( a == 6 && b == 5 && c == 5 && d == 6 ) ) ? 1 : 0;
 }
 
 /*
@@ -238,7 +248,7 @@ int game1_wins(int a, int b, int c, int d)
 */
 int game2_wins(int a, int b, int c, int d, int e, int f)
 {
-	return 0;
+	return ( ( a == 6 ) + ( b == 6 ) + ( c == 6 ) + ( d == 6 ) + ( e == 6 ) + ( f == 6 ) ) == 4 ? 1: 0;
 }
 /*
   Play game 1 for the given number of iterations and return the
@@ -246,7 +256,14 @@ int game2_wins(int a, int b, int c, int d, int e, int f)
 */
 int game1(int iterations)
 {
-	return 0;
+	int wins =0;
+	while( iterations > 0 )
+	{
+		if( game1_wins( die_toss(), die_toss(), die_toss(), die_toss() ) == 1)
+			wins++;
+		iterations--;
+	}
+	return wins;
 }
 /*
   Play game 2 for the given number of iterations and return the
@@ -254,7 +271,14 @@ int game1(int iterations)
 */
 int game2(int iterations)
 {
-	return 0;
+	int wins =0;
+		while( iterations > 0 )
+		{
+			if( game2_wins( die_toss(), die_toss(), die_toss(), die_toss(), die_toss(), die_toss() ) == 1)
+				wins++;
+			iterations--;
+		}
+		return wins;
 }
 
 /*
@@ -293,7 +317,15 @@ r .....
  */
 double inside_quarter_circle(double radius, int tries)
 {
-	return 0;
+	double xCor, yCor; int hits=0;
+	for( int i =0; i < tries; i++ )
+	{
+		xCor = rand_double();
+		yCor = rand_double();
+		if( xCor * xCor + yCor * yCor <= 1 )
+		  hits++;
+	}
+	return (double)hits / tries;
 }
 int main()
 {
@@ -304,11 +336,11 @@ int main()
 	/*
 	 * Question 2
 	 */
-	//cout<< digitsInCommon(1203, 4126378) << endl;
+	//cout<< digitsInCommon(1234567890, 987654321) << endl;
 	/*
 	 * Question 3
 	 */
-	cout << decimal_time(9, 0, 0, false) << endl;
+	//cout << decimal_time(9, 0, 0, false) << endl;
 	/*
 	 * Question 4
 	 */
@@ -325,11 +357,10 @@ int main()
 //	/*
 //	 * Question 5
 //	 */
-//	srand(42);
-//	cout << inside_quarter_circle(1, 1000) << endl;
-//	cout << inside_quarter_circle(20, 1000) << endl;
-//	// Approximating pi
-//	cout << 4 * inside_quarter_circle(1, 10000000) << endl;
-
+	srand(42);
+	cout << inside_quarter_circle(1, 1000) << endl;
+	cout << inside_quarter_circle(20, 1000) << endl;
+	// Approximating pi
+	cout << 4 * inside_quarter_circle(1, 10000000) << endl;
 	return 0;
 }
