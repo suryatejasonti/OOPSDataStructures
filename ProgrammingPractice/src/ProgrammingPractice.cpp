@@ -3,7 +3,7 @@
 // Author      : SuryaTSonti
 // Version     :
 // Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
+// Description : Practice questions in C++, Ansi-style
 //============================================================================
 
 #include <iostream>
@@ -188,6 +188,7 @@ double ceil(double v, int p)
   v *= pow(10, p);
   v = ceil(v);
   v /= pow(10, p);
+  return v;
 }
 /*
   Write a function that converts US time with hours, minutes, seconds,
