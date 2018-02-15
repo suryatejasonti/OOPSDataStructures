@@ -18,6 +18,23 @@ const int MAX_SIZE = 5;  // maximum matrix size
 enum ErrorCode {ZERO_ROW, SINGULAR_MATRIX, NO_CONVERGENCE};
 
 /**
+ * Create Hilbert matric of size entered
+ * @param n the size of the matrix.
+ * @param A the computed matrix of Hilbert.
+ */
+void createHilbert(const int n, double A[][MAX_SIZE]);
+
+/**
+ * Compute matrix multiplication for identity matrix
+ * A * Ainv = I
+ * @param n is size of matrices
+ * @param A the matrix
+ * @param Ainv the inverse of matrix A
+ * @param I the computed matrix for identity
+ */
+void identity(const int n, double A[][MAX_SIZE], double Ainv[][MAX_SIZE], double I[][MAX_SIZE]);
+
+/**
  * Invert a matrix using the LU Decomposition Algorithm.
  * @param n the size of the matrix.
  * @param A the matrix to invert.
@@ -62,14 +79,53 @@ void singular(const ErrorCode code);
 int main()
 {
 	int sizeofMatrix;
-	cout << "Size of Hilbert matrix (1-5)?	";
+	cout << "Size of Hilbert matrix (1-5)? ";
 	cin >> sizeofMatrix;
-	while(sizeofMatrix < MAX_SIZE)
+	while( sizeofMatrix > 0 && sizeofMatrix < MAX_SIZE )
 	{
-
+		double A[sizeofMatrix][MAX_SIZE], Ainv[sizeofMatrix][MAX_SIZE], I[sizeofMatrix][MAX_SIZE];
+		cout << endl << "Hilbert matrix of size " + sizeofMatrix << endl;
+		createHilbert(sizeofMatrix, A);
+		cout << "Hilbert matrix inverted:" << endl;
+		invert(sizeofMatrix, A, Ainv);
+		cout << "Hilbert matrix multiplied by its inverse:" << endl;
+		identity(sizeofMatrix, A, Ainv, I);
+		cout << "Inverse Hilbert matrix inverted:" << endl;
+		invert(sizeofMatrix, Ainv, A);
 	}
     cout << endl << "Done!" << endl;
     return 0;
+}
+
+void createHilbert(const int n, double A[][MAX_SIZE])
+{
+	for ( int i =0; i < n; i++ )
+	{
+		for ( int j = 0; j < n; j++ )
+		{
+			A[i][j] = 1.0 / ( i + j -1 );
+			cout << " " << A[i][j];
+			if(j == n-1)
+				cout << endl;
+		}
+	}
+}
+
+void identity(const int n, double A[][MAX_SIZE], double Ainv[][MAX_SIZE], double I[][MAX_SIZE])
+{
+	for ( int i = 0; i < n; i++ )
+	{
+		for ( int j = 0; j < n; j++ )
+		{
+			for ( int k =0; k < n; k++)
+			{
+				I[i][j] += A[i][k] * Ainv[k][j];
+				cout << " " << I[i][j];
+				if(j == n-1)
+					cout << endl;
+			}
+		}
+	}
 }
 
 void invert(const int n, double A[][MAX_SIZE], double Ainv[][MAX_SIZE])
@@ -89,7 +145,13 @@ void invert(const int n, double A[][MAX_SIZE], double Ainv[][MAX_SIZE])
         }
 
         solve(n, LU, b, x, ps);
-        for (int i = 0; i < n; i++) Ainv[i][j] = x[i];
+        for (int i = 0; i < n; i++)
+        	{
+        		Ainv[i][j] = x[i];
+        		cout << " " << Ainv[i][j];
+			if(j == n-1)
+				cout << endl;
+        	}
     }
 }
 
