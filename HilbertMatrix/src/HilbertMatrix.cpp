@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <iomanip>
 /***** Complete this program. *****/
 
 using namespace std;
@@ -78,41 +79,63 @@ void singular(const ErrorCode code);
  */
 int main()
 {
-	int sizeofMatrix;
-	cout << "Size of Hilbert matrix (1-5)? ";
-	cin >> sizeofMatrix;
-	while( sizeofMatrix > 0 && sizeofMatrix < MAX_SIZE )
+	while( true )
 	{
+
+		//GEt input of size of matrix.
+		int sizeofMatrix; cout << fixed << setprecision(6);
+		cout << "Size of Hilbert matrix (1-5)?" << endl;
+		cin >> sizeofMatrix;
+
+		//Verify condition for size of matrix and break loop
+		if(sizeofMatrix <= 0 || sizeofMatrix > MAX_SIZE) break;
+		//Initialize variables Matrix A, Matrix inv Ainv, Identity Matrix I of size specified.
 		double A[sizeofMatrix][MAX_SIZE], Ainv[sizeofMatrix][MAX_SIZE], I[sizeofMatrix][MAX_SIZE];
-		cout << endl << "Hilbert matrix of size " + sizeofMatrix << endl;
+		//calling routine
+		cout << "Hilbert matrix of size " + to_string(sizeofMatrix) << ":" << endl << endl;
 		createHilbert(sizeofMatrix, A);
-		cout << "Hilbert matrix inverted:" << endl;
+		cout << endl << "Hilbert matrix inverted:" << endl << endl;
 		invert(sizeofMatrix, A, Ainv);
-		cout << "Hilbert matrix multiplied by its inverse:" << endl;
+		cout << endl << "Hilbert matrix multiplied by its inverse:" << endl << endl;
 		identity(sizeofMatrix, A, Ainv, I);
-		cout << "Inverse Hilbert matrix inverted:" << endl;
+		cout << endl << "Inverse Hilbert matrix inverted:" << endl << endl;
 		invert(sizeofMatrix, Ainv, A);
+		cout << endl;
+
 	}
-    cout << endl << "Done!" << endl;
+
+    cout << "Done!" << endl;
     return 0;
 }
 
 void createHilbert(const int n, double A[][MAX_SIZE])
 {
+
+	//Create HIlbert matrix with H( i, j )  = 1. / ( i + j + 1 ).
 	for ( int i =0; i < n; i++ )
 	{
 		for ( int j = 0; j < n; j++ )
 		{
-			A[i][j] = 1.0 / ( i + j -1 );
-			cout << " " << A[i][j];
+			A[i][j] = 1.0 / ( i + j + 1 );
+			cout << setw(15) << A[i][j];
 			if(j == n-1)
 				cout << endl;
 		}
 	}
+
 }
 
 void identity(const int n, double A[][MAX_SIZE], double Ainv[][MAX_SIZE], double I[][MAX_SIZE])
 {
+	// Initialize Identity matrix to zeros of size n X n
+	for(int i = 0; i < n; ++i)
+	{
+	  for(int j = 0; j < n; ++j)
+	  {
+		 I[i][j]=0;
+	  }
+	}
+	// Multiply A X Ainverse and store in Identity matrix
 	for ( int i = 0; i < n; i++ )
 	{
 		for ( int j = 0; j < n; j++ )
@@ -120,10 +143,10 @@ void identity(const int n, double A[][MAX_SIZE], double Ainv[][MAX_SIZE], double
 			for ( int k =0; k < n; k++)
 			{
 				I[i][j] += A[i][k] * Ainv[k][j];
-				cout << " " << I[i][j];
-				if(j == n-1)
-					cout << endl;
 			}
+			cout << setw(15) << I[i][j];
+			if(j == n-1)
+				cout << endl;
 		}
 	}
 }
@@ -148,8 +171,8 @@ void invert(const int n, double A[][MAX_SIZE], double Ainv[][MAX_SIZE])
         for (int i = 0; i < n; i++)
         	{
         		Ainv[i][j] = x[i];
-        		cout << " " << Ainv[i][j];
-			if(j == n-1)
+        		cout << setw(15) << Ainv[i][j];
+			if(i == n-1)
 				cout << endl;
         	}
     }
