@@ -29,80 +29,161 @@ const int LINE_SIZE  = 100;               // digits to print per line
 const int LINE_COUNT = PLACES/LINE_SIZE;  // lines to print
 const int GROUP_SIZE = 5;                 // line grouping size
 
-/***** Complete this file. *****/
+/*
+ * Global Variables to store values 1, 2, 4, 6 values respectively
+ */
+mpf_t one, two, four, six;
+
+/*
+ * Calculate pi for the Borewins quartic formula
+ * @param ai pointer of a0 value calculated earlier
+ * @param yi pointer of y0 value calculated earlier
+ * @param pi pointer to pi value to be stored in.
+ */
+void calculatepi(mpf_t *pi, mpf_t *yi, mpf_t *ai);
+
+/*
+ * Prints the pi value with string formatting
+ * @Parameter pi pointer to pi value calculated at the end of algorithm
+ */
+void printpi(mpf_t *pi);
+
+void calculatepi(mpf_t *pi, mpf_t *yi, mpf_t *ai)
+{
+	for( int i = 0; i < MAX_ITERATIONS; i++ )
+	{
+		//Declaring loop variables
+		mpf_t nr,dr,lhs,rhs,temp;
+
+		// Initializing variables
+		mpf_init(temp);
+		mpf_init(rhs);
+		mpf_init(lhs);
+		mpf_init(nr);
+		mpf_init(dr);
+
+		//Calculating yi = nr/dr
+		mpf_pow_ui( *yi, *yi, 4);
+		mpf_sub( temp, one, *yi );
+		mpf_sqrt( temp, temp );
+		mpf_sqrt( temp, temp );
+		mpf_add( dr, one, temp );
+		mpf_sub( nr, one, temp );
+		mpf_div( *yi, nr, dr );
+
+		//Clearing temp loop variables.
+		mpf_clear(nr);
+		mpf_clear(dr);
+
+		//calculating left hand side value
+		mpf_add( lhs, one, *yi );
+		mpf_pow_ui( lhs, lhs, 4 );
+		mpf_mul( lhs, lhs, *ai );
+
+		//calculating right hand side value
+		mpf_pow_ui( temp, *yi, 2 );
+		mpf_add( rhs, one, temp );
+		mpf_add( rhs, rhs, *yi );
+		mpf_mul( rhs, rhs, *yi );
+
+		//calculating ai from substraction ai = lhs-rhs
+		mpf_pow_ui( temp,two,(2*i) + 3 ) ;
+		mpf_mul( rhs, rhs, temp );
+		mpf_sub( *ai, lhs, rhs );
+
+		//Clearing temp loop variables.
+		mpf_clear(temp);
+		mpf_clear(rhs);
+		mpf_clear(lhs);
+
+		//calculating pi from ai, pi = 1 / ai;
+		mpf_div( *pi, one, *ai );
+	}
+}
+
+void printpi(mpf_t *pi)
+{
+
+	mp_exp_t exp;
+	char * pistring = mpf_get_str(NULL, &exp, BASE, PRECISION, *pi);
+	cout << "pi to " << PLACES << " places:" << endl << endl;
+	cout << pistring[0] << ".";
+
+	for( int line = 0; line < LINE_COUNT; line++ )
+	{
+		if( line > 0 )
+			cout << "  ";
+	    for( int length = 0; length < ( LINE_SIZE / BLOCK_SIZE ); length++ )
+	    {
+	        for( int block=0; block < BLOCK_SIZE; block++ )
+	        {
+	            cout<<pistring[block + length * BLOCK_SIZE + line * LINE_SIZE + 1];
+	        }
+	        cout <<" ";
+	    }
+	    cout << endl;
+		if( line % GROUP_SIZE == GROUP_SIZE - 1 )
+			cout << endl;
+	}
+}
 
 /**
  * The main.
  */
 
-
-#include <iostream>
-#include <mpir.h>
-
-using namespace std;
-
 int main()
 {
-	mpf_t res,one,two,four,mulfr,six;
+	//@variables are declared for saving temporary results.
+	mpf_t tempresult;
+
+	//@variables to calculate algorithm to compute pi value
 	mpf_t yi, ai, pi;
-	mpf_set_default_prec(PLACES*MAX_ITERATIONS);
+
+	//Setting default precision for all float variables before initialization
+	mpf_set_default_prec(BIT_COUNT*PLACES);
+
+	// Initializing variables
 	mpf_init(yi);
 	mpf_init(ai);
 	mpf_init(pi);
-	mpf_init(res);
-	mpf_init_set_d(two,2.0);
-	mpf_sqrt(res,two);
+	mpf_init(tempresult);
 	mpf_init_set_d(one,1.0);
-	mpf_sub(yi,res,one);
+	mpf_init_set_d(two,2.0);
 	mpf_init_set_d(four,4.0);
-	mpf_init(mulfr);
-	mpf_mul(mulfr,four,res);
 	mpf_init_set_d(six,6.0);
-	mpf_sub(ai,six,mulfr);
 
-	for( int i = 0; i < MAX_ITERATIONS; i++ )
-	{
-		mpf_t sub1,nthrt,nr,dr,lhs,rhs,temp;
+	mpf_sqrt(tempresult,two);
+	mpf_sub(yi,tempresult,one);
+	mpf_mul(tempresult,four,tempresult);
+	mpf_sub(ai,six,tempresult);
 
-		mpf_init(sub1);
-		mpf_init(nthrt);
-		mpf_pow_ui(yi,yi,4);
-		mpf_sub(sub1,one,yi);
+	//Clearing temp loop variables.
+	mpf_clear(four);
+	mpf_clear(six);
+	mpf_clear(tempresult);
 
-		mpf_sqrt(nthrt,sub1);
-		mpf_sqrt(nthrt,nthrt);
-		mpf_init(nr);
-		mpf_init(dr);
-		mpf_add(dr, one, nthrt);
-		mpf_sub(nr, one, nthrt);
-		mpf_div(yi,nr,dr);
+	//@variable start_time: Identifying the start time of the program to calculate execution.
+	steady_clock::time_point start_time = steady_clock::now();
 
-		mpf_init(lhs);
-		mpf_add(lhs,one,yi);
-		mpf_pow_ui(lhs, lhs, 4);
-		mpf_mul(lhs, lhs, ai);
+	//Calling algorithm
+	calculatepi( &pi, &yi, &ai);
 
-		mpf_init(temp);
-		mpf_init(rhs);
-		mpf_pow_ui(temp, yi, 2);
-		mpf_add(rhs, one, temp);
-		mpf_add(rhs, rhs, yi);
-		mpf_mul(rhs, rhs, yi);
+	//@variable end_time: Identifying the end time of the program to calculate execution.
+	steady_clock::time_point end_time = steady_clock::now();
 
-		int hello = (2*i) +3;
-		mpf_pow_ui(temp,two,hello);
-		mpf_mul(rhs, rhs, temp);
+	//Calling print function to print pi value
+	printpi(&pi);
+
+	//Clearing temp loop variables.
+	mpf_clear(yi);
+	mpf_clear(ai);
+	mpf_clear(pi);
+	mpf_clear(one);
+	mpf_clear(two);
 
 
-		mpf_sub(ai, lhs, rhs);
-
-		mpf_div(pi, one, ai);
-
-		gmp_printf ("INput: %.1000Ff\n\n",pi);
-
-	}
-	//gmp_printf ("INput: %.1000Ff\n\n",pi);
-
-	operator<< (ostream& stream, mpz t op)
+	duration<double>time_span = duration_cast<duration<double>> (end_time - start_time);
+	cout << "  Elapsed time: " << time_span.count() << " seconds"<< endl;
 }
+
 
