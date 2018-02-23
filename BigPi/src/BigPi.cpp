@@ -17,8 +17,8 @@
 using namespace std;
 using namespace std::chrono;
 
-const int MAX_ITERATIONS = 5;
-const int PLACES         = 1000;        // desired decimal places
+const int MAX_ITERATIONS = 10;
+const int PLACES         = 1000000;        // desired decimal places
 const int PRECISION      = PLACES + 1;  // +1 for the digit 3 before the decimal
 
 const int BASE       = 10;  // base 10 numbers
@@ -50,18 +50,18 @@ void printpi(mpf_t *pi);
 
 void calculatepi(mpf_t *pi, mpf_t *yi, mpf_t *ai)
 {
+	//Declaring loop variables
+	mpf_t nr,dr,lhs,rhs,temp;
+
+	// Initializing variables
+	mpf_init(temp);
+	mpf_init(rhs);
+	mpf_init(lhs);
+	mpf_init(nr);
+	mpf_init(dr);
+
 	for( int i = 0; i < MAX_ITERATIONS; i++ )
 	{
-		//Declaring loop variables
-		mpf_t nr,dr,lhs,rhs,temp;
-
-		// Initializing variables
-		mpf_init(temp);
-		mpf_init(rhs);
-		mpf_init(lhs);
-		mpf_init(nr);
-		mpf_init(dr);
-
 		//Calculating yi = nr/dr
 		mpf_pow_ui( *yi, *yi, 4);
 		mpf_sub( temp, one, *yi );
@@ -70,10 +70,6 @@ void calculatepi(mpf_t *pi, mpf_t *yi, mpf_t *ai)
 		mpf_add( dr, one, temp );
 		mpf_sub( nr, one, temp );
 		mpf_div( *yi, nr, dr );
-
-		//Clearing temp loop variables.
-		mpf_clear(nr);
-		mpf_clear(dr);
 
 		//calculating left hand side value
 		mpf_add( lhs, one, *yi );
@@ -91,14 +87,17 @@ void calculatepi(mpf_t *pi, mpf_t *yi, mpf_t *ai)
 		mpf_mul( rhs, rhs, temp );
 		mpf_sub( *ai, lhs, rhs );
 
-		//Clearing temp loop variables.
-		mpf_clear(temp);
-		mpf_clear(rhs);
-		mpf_clear(lhs);
-
 		//calculating pi from ai, pi = 1 / ai;
 		mpf_div( *pi, one, *ai );
 	}
+
+	//Clearing temp loop variables.
+	mpf_clear(nr);
+	mpf_clear(dr);
+	//Clearing temp loop variables.
+	mpf_clear(temp);
+	mpf_clear(rhs);
+	mpf_clear(lhs);
 }
 
 void printpi(mpf_t *pi)
@@ -181,8 +180,7 @@ int main()
 	mpf_clear(one);
 	mpf_clear(two);
 
-
-	duration<double>time_span = duration_cast<duration<double>> (end_time - start_time);
+	duration<double>time_span = end_time - start_time;
 	cout << "  Elapsed time: " << time_span.count() << " seconds"<< endl;
 }
 
