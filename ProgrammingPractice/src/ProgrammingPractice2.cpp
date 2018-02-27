@@ -152,8 +152,8 @@ void question5()
 		      maxAbbreviation = abbreviation;
 		      maxValue = value;
 		      minLabel = label;
-				minAbbreviation = abbreviation;
-				minValue = value;
+		      minAbbreviation = abbreviation;
+		      minValue = value;
 		   }
 
 			if( maxValue < value)
