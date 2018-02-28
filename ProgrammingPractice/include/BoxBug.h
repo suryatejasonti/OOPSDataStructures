@@ -20,7 +20,7 @@ Complete the following files:
 class BoxBug
 {
  private:
-	int x, y, bw, bh;
+	int x, y, bw, bh, rd, ld, ru, lu;
  public:
     BoxBug(int initial_x, int initial_y, int box_width, int box_height);
     void move();

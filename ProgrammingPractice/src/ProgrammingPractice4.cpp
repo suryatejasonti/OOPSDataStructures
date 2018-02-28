@@ -5,6 +5,7 @@
 #include "../include/PipeBug.h"
 #include "../include/VacuumBug.h"
 #include "../include/SpiralBug.h"
+#include "../include/LoveBug.h"
 
 
 using namespace std;
@@ -158,4 +159,36 @@ int main()
 //	for (int x = 0; x < width; x++) cout << '-';
 //	cout << '+' << endl;
 //
+
+	LoveBug harry(0, 0);
+	LoveBug sally(0.05, 0.05);
+	harry.move(sally);
+	cout << harry.get_happiness() << endl;
+	cout << "Expected: 1" << endl;
+	cout << sally.get_happiness() << endl;
+	cout << "Expected: 0" << endl;
+	cout << "(" << harry.get_x() << "," << harry.get_y() << ")" << endl;
+	cout << "Expected: (0,0)" << endl;
+	cout << "(" << sally.get_x() << "," << sally.get_y() << ")" << endl;
+	cout << "Expected: (0.05,0.05)" << endl;
+
+	LoveBug romeo(0, 0);
+	LoveBug juliet(10, 10);
+	juliet.move(romeo);
+	cout << juliet.get_happiness() << endl;
+	cout << "Expected: 1" << endl;
+	cout << romeo.get_happiness() << endl;
+	cout << "Expected: 0" << endl;
+	cout << "(" << juliet.get_x() << "," << romeo.get_y() << ")" << endl;
+	cout << "Expected: (3.35938,3.32031)" << endl;
+	cout << "(" << romeo.get_x() << "," << romeo.get_y() << ")" << endl;
+	cout << "Expected: (3.32031,3.32031)" << endl;
+
+	LoveBug narcissus(5, 5);
+	narcissus.move(narcissus);
+	cout << narcissus.get_happiness() << endl;
+	cout << "Expected: 0" << endl;
+	cout << "(" << narcissus.get_x() << "," << narcissus.get_y() << ")" << endl;
+	cout << "Expected: (5,5)" << endl;
+
 }
