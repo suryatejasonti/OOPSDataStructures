@@ -45,9 +45,7 @@ public:
 
     friend ostream & operator<<(ostream &output, const RomanNumeral &romannumeral);
 
-    friend ifstream & operator>>(ifstream &input, RomanNumeral &romannumeral);
-
-    friend void operator>>(char &op, RomanNumeral &romannumeral);
+    friend istream & operator>>(istream &input, RomanNumeral &romannumeral);
 
 };
 

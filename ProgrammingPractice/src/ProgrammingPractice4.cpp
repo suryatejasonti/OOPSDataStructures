@@ -4,6 +4,7 @@
 #include "../include/BoxBug.h"
 #include "../include/PipeBug.h"
 #include "../include/VacuumBug.h"
+#include "../include/SpiralBug.h"
 
 
 using namespace std;
@@ -78,43 +79,83 @@ int main()
 
 
 
-   int width;
-   int height;
-   int initial_x;
-   int initial_y;
-   int moves;
-   cout << "hi" << endl;
-   cin >> width >> height >> initial_x >> initial_y >> moves;
+//   int width;
+//   int height;
+//   int initial_x;
+//   int initial_y;
+//   int moves;
+//   cout << "hi" << endl;
+//   cin >> width >> height >> initial_x >> initial_y >> moves;
+//
+//   vector< vector<char> > box;
+//   for (int y = 0; y < height; y++)
+//   {
+//      box.push_back(vector<char>());
+//      for (int x = 0; x < width; x++)
+//         box[y].push_back(' ');
+//   }
+//   BoxBug b(initial_x, initial_y, width, height);
+//   box[initial_y][initial_x] = '0';
+//   for (int move = 1; move <= moves; move++)
+//   {
+//      b.move();
+//      box[b.get_y()][b.get_x()] = '0' + (move % 10);
+//   }
+//   cout << '+';
+//   for (int x = 0; x < width; x++) cout << '-';
+//   cout << '+' << endl;
+//   for (int y = height - 1; y >= 0; y--)
+//   {
+//      cout << "|";
+//      for (int x = 0; x < width; x++)
+//      {
+//         cout << box[y][x];
+//      }
+//      cout << "|" << endl;
+//   }
+//   cout << '+';
+//   for (int x = 0; x < width; x++) cout << '-';
+//   cout << '+' << endl;
 
-   vector< vector<char> > box;
-   for (int y = 0; y < height; y++)
-   {
-      box.push_back(vector<char>());
-      for (int x = 0; x < width; x++)
-         box[y].push_back(' ');
-   }
-   BoxBug b(initial_x, initial_y, width, height);
-   box[initial_y][initial_x] = '0';
-   for (int move = 1; move <= moves; move++)
-   {
-      b.move();
-      box[b.get_y()][b.get_x()] = '0' + (move % 10);
-   }
-   cout << '+';
-   for (int x = 0; x < width; x++) cout << '-';
-   cout << '+' << endl;
-   for (int y = height - 1; y >= 0; y--)
-   {
-      cout << "|";
-      for (int x = 0; x < width; x++)
-      {
-         cout << box[y][x];
-      }
-      cout << "|" << endl;
-   }
-   cout << '+';
-   for (int x = 0; x < width; x++) cout << '-';
-   cout << '+' << endl;
-
-
+//	int n;
+//	int moves;
+//	cin >> n >> moves;
+//
+//	int xmin = -10;
+//	int xmax = 10;
+//	int ymin = -10;
+//	int ymax = 10;
+//	int height = ymax - ymin + 1;
+//	int width = xmax - xmin + 1;
+//
+//	vector< vector<char> > box;
+//	for (int y = 0; y < height; y++)
+//	{
+//	 box.push_back(vector<char>());
+//	 for (int x = 0; x < width; x++)
+//		box[y].push_back(' ');
+//	}
+//	SpiralBug b(n);
+//	box[-ymin][-xmin] = '0';
+//	for (int move = 1; move <= moves; move++)
+//	{
+//	 b.move();
+//	 box[b.get_y() - ymin][b.get_x() - xmin] = '0' + (move % 10);
+//	}
+//	cout << '+';
+//	for (int x = 0; x < width; x++) cout << '-';
+//	cout << '+' << endl;
+//	for (int y = height - 1; y >= 0; y--)
+//	{
+//	 cout << "|";
+//	 for (int x = 0; x < width; x++)
+//	 {
+//		cout << box[y][x];
+//	 }
+//	 cout << "|" << endl;
+//	}
+//	cout << '+';
+//	for (int x = 0; x < width; x++) cout << '-';
+//	cout << '+' << endl;
+//
 }

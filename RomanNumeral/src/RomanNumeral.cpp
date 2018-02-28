@@ -294,11 +294,11 @@ bool RomanNumeral::operator != (const RomanNumeral& romannumeral) const
 
 ostream & operator << (ostream &output, const RomanNumeral &romannumeral)
 {
-	output << "[" << romannumeral.get_decimal() << ":" << romannumeral.get_roman() << "]";
+	output << "[" << romannumeral.decimal << ":" << romannumeral.roman << "]";
 	return output;
 }
 
-ifstream & operator >> (ifstream &input, RomanNumeral &romannumeral)
+istream & operator>>(istream &input, RomanNumeral &romannumeral)
 {
 	input >> romannumeral.roman;
 	return input;

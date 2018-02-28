@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+
 #include "RomanNumeral.h"
 
 using namespace std;
@@ -23,8 +24,7 @@ int main()
         cout << "Input file open failed: " << INPUT_FILE_NAME;
         return -1;
     }
-
-    //test2(in);
+    test2(in);
     return 0;
 }
 
