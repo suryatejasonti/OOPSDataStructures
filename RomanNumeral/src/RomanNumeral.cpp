@@ -12,49 +12,59 @@
 
 using namespace std;
 
-
-
+//DEfault constructor
+RomanNumeral::RomanNumeral()
+{
+	this->roman = "";
+	this->decimal = 0;
+}
+//Constructor with string argument
 RomanNumeral::RomanNumeral(string roman)
 {
 	this->roman = roman;
 	decimal =to_decimal(roman);
 }
+//construct with decimal argument
 RomanNumeral::RomanNumeral(int decimal)
 {
 	this->decimal = decimal;
 	roman = to_roman(decimal);
 }
-int RomanNumeral::get_decimal() const
-{
-	return this->decimal;
-}
-
-string RomanNumeral::get_roman() const
-{
-	return this->roman;
-}
 
 // This function returns value of a Roman symbol
-int value(char r)
+int value(char ch)
 {
-    if (r == 'I')
-        return 1;
-    if (r == 'V')
-        return 5;
-    if (r == 'X')
-        return 10;
-    if (r == 'L')
-        return 50;
-    if (r == 'C')
-        return 100;
-    if (r == 'D')
-        return 500;
-    if (r == 'M')
-        return 1000;
-
-    return -1;
+	switch(ch)
+	{
+		case 'I':
+			return 1;
+			break;
+		case 'V':
+			return 5;
+			break;
+		case 'X':
+			return 10;
+			break;
+		case 'L':
+			return 50;
+			break;
+		case 'C':
+			return 100;
+			break;
+		case 'D':
+			return 500;
+			break;
+		case 'M':
+			return 1000;
+			break;
+		default:
+			return -1;
+			break;
+	}
 }
-
+/*
+ * private method used for converting string to decimal value
+ */
 int RomanNumeral::to_decimal(string &roman)
 {
 	// Initialize result
@@ -93,214 +103,83 @@ int RomanNumeral::to_decimal(string &roman)
 	}
 	return res;
 }
-// To add corresponding base symbols in the array
-// to handle cases which follow subtractive notation.
-// Base symbols are added index 'i'.
-int sub_digit(char num1, char num2, int i, char *c)
-{
-    c[i++] = num1;
-    c[i++] = num2;
-    return i;
-}
-
-// To add symbol 'ch' n times after index i in c[]
-int digit(char ch, int n, int i, char *c)
-{
-    for (int j = 0; j < n; j++)
-        c[i++] = ch;
-    return i;
-}
+/*
+ * private method converting decimal to roman from decimal from 1 to 3999
+ * identify the index in array and add string to result after getting each character
+ */
 string RomanNumeral::to_roman(int decimal)
 {
-	char c[10001];
-	int i = 0;
-	string result;
-	// If number entered is not valid
-	if (decimal <= 0)
-	{
-		result = "Invalid number";
-		return result;
-	}
-
-	// TO convert decimal number to roman numerals
-	while (decimal != 0)
-	{
-		// If base value of number is greater than 1000
-		if (decimal >= 1000)
-		{
-			// Add 'M' number/1000 times after index i
-			i = digit('M', decimal/1000, i, c);
-			decimal = decimal%1000;
-		}
-
-		// If base value of number is greater than or
-		// equal to 500
-		else if (decimal >= 500)
-		{
-			// To add base symbol to the character array
-			if (decimal < 900)
-			{
-			   // Add 'D' number/1000 times after index i
-			   i = digit('D', decimal/500, i, c);
-			   decimal = decimal%500;
-			}
-
-			// To handle subtractive notation in case of number
-			// having digit as 9 and adding corresponding base
-			// symbol
-			else
-			{
-				// Add C and M after index i/.
-				i = sub_digit('C', 'M', i, c);
-				decimal = decimal%100 ;
-			}
-		}
-
-		// If base value of number is greater than or equal to 100
-		else if (decimal >= 100)
-		{
-			// To add base symbol to the character array
-			if (decimal < 400)
-			{
-				i = digit('C', decimal/100, i, c);
-				decimal = decimal%100;
-			}
-
-			// To handle subtractive notation in case of number
-			// having digit as 4 and adding corresponding base
-			// symbol
-			else
-			{
-				i = sub_digit('C','D',i,c);
-				decimal = decimal%100;
-			}
-		}
-
-		// If base value of number is greater than or equal to 50
-		else if (decimal >= 50 )
-		{
-			// To add base symbol to the character array
-			if (decimal < 90)
-			{
-				i = digit('L', decimal/50,i,c);
-				decimal = decimal%50;
-			}
-
-			// To handle subtractive notation in case of number
-			// having digit as 9 and adding corresponding base
-			// symbol
-			else
-			{
-				i = sub_digit('X','C',i,c);
-				decimal = decimal%10;
-			}
-		}
-		// If base value of number is greater than or equal to 10
-		else if (decimal >= 10)
-		{
-			// To add base symbol to the character array
-			if (decimal < 40)
-			{
-				i = digit('X', decimal/10,i,c);
-				decimal = decimal%10;
-			}
-
-			// To handle subtractive notation in case of
-			// number having digit as 4 and adding
-			// corresponding base symbol
-			else
-			{
-				i = sub_digit('X','L',i,c);
-				decimal = decimal%10;
-			}
-		}
-
-		// If base value of number is greater than or equal to 5
-		else if (decimal >= 5)
-		{
-			if (decimal < 9)
-			{
-				i = digit('V', decimal/5,i,c);
-				decimal = decimal%5;
-			}
-
-			// To handle subtractive notation in case of number
-			// having digit as 9 and adding corresponding base
-			// symbol
-			else
-			{
-				i = sub_digit('I','X',i,c);
-				decimal = 0;
-			}
-		}
-
-		// If base value of number is greater than or equal to 1
-		else if (decimal >= 1)
-		{
-			if (decimal < 4)
-			{
-				i = digit('I', decimal,i,c);
-				decimal = 0;
-			}
-
-			// To handle subtractive notation in case of
-			// number having digit as 4 and adding corresponding
-			// base symbol
-			else
-			{
-				i = sub_digit('I', 'V', i, c);
-				decimal = 0;
-			}
-		}
-	}
-	result = c;
-	return result;
+	//result variable to store result
+    string result;
+    //char M array to get M in decimal value
+    string M[] = {"","M","MM","MMM"};
+    //char C array to get M in decimal value and combinations with D, M, C
+    string C[] = {"","C","CC","CCC","CD","D","DC","DCC","DCCC","CM"};
+    //char X array to get X in decimal value and combinations with L, X, C
+    string X[] = {"","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"};
+    //char I array to get I in decimal value and combinations with I, V
+    string I[] = {"","I","II","III","IV","V","VI","VII","VIII","IX"};
+    result = M[decimal/1000]+C[(decimal%1000)/100]+X[(decimal%100)/10]+I[(decimal%10)];
+    return result;
 }
 
+//public method to get decimal value from roman
+int RomanNumeral::get_decimal() const
+{
+	return this->decimal;
+}
+//public method to get string from decimal value
+string RomanNumeral::get_roman() const
+{
+	return this->roman;
+}
+
+//Overloading opeator for addition
 RomanNumeral RomanNumeral::operator + (const RomanNumeral& romannumeral) const
 {
 	int a = decimal + romannumeral.get_decimal();
 	RomanNumeral result(a);
 	return result;
 }
-
+//Overloading opeator for substraction
 RomanNumeral RomanNumeral::operator - (const RomanNumeral& romannumeral) const
 {
-	RomanNumeral result(decimal + romannumeral.get_decimal());
+	RomanNumeral result(decimal - romannumeral.get_decimal());
 	return result;
 }
-
+//Overloading opeator for multiply
 RomanNumeral RomanNumeral::operator * (const RomanNumeral& romannumeral) const
 {
 	RomanNumeral result(decimal * romannumeral.get_decimal());
 	return result;
 }
-
+//Overloading opeator for division
 RomanNumeral RomanNumeral::operator / (const RomanNumeral& romannumeral) const
 {
 	RomanNumeral result(decimal / romannumeral.get_decimal());
 	return result;
 }
-
+//Overloading opeator for equal comparison
 bool RomanNumeral::operator == (const RomanNumeral& romannumeral) const
 {
 	return decimal == romannumeral.get_decimal() ? true : false;
 }
-
+//Overloading opeator for not equal comparison
 bool RomanNumeral::operator != (const RomanNumeral& romannumeral) const
 {
 	return decimal == romannumeral.get_decimal() ? false : true;
 }
-
+//Overloading opeator for output stream
 ostream & operator << (ostream &output, const RomanNumeral &romannumeral)
 {
 	output << "[" << romannumeral.decimal << ":" << romannumeral.roman << "]";
 	return output;
 }
-
-istream & operator>>(istream &input, RomanNumeral &romannumeral)
+//Overloading opeator for input stream
+istream & operator >> (istream &input, RomanNumeral &romannumeral)
 {
 	input >> romannumeral.roman;
+	romannumeral.decimal = romannumeral.to_decimal(romannumeral.roman);
 	return input;
 }
 
