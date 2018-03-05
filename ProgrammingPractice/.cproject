@@ -43,7 +43,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="ProgrammingPractice3.cpp|ProgrammingPractice.cpp|ProgrammingPractice2.cpp" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
+						<entry excluding="ProgrammingPractice5.cpp|ProgrammingPractice4.cpp|ProgrammingPractice3.cpp|ProgrammingPractice.cpp|ProgrammingPractice2.cpp" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -89,7 +89,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="ProgrammingPractice3.cpp|ProgrammingPractice2.cpp|ProgrammingPractice.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ProgrammingPractice5.cpp|ProgrammingPractice4.cpp|ProgrammingPractice3.cpp|ProgrammingPractice2.cpp|ProgrammingPractice.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

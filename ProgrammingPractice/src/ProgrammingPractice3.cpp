@@ -1,5 +1,5 @@
 //============================================================================
-// Name        : ProgrammingPractice2.cpp
+// Name        : ProgrammingPractice3.cpp
 // Author      : SuryaTSonti
 // Version     :
 // Copyright   : Your copyright notice
@@ -8,291 +8,231 @@
 
 #include <iostream>
 #include <iomanip>
-#include <cstring>
-#include <chrono>
+#include <vector>
+#include <string>
+#include <fstream>
 
 using namespace std;
-using namespace std::chrono;
 
 
 /**
-   Compute the minimum and maximum value in an array.
-   @param arr the array
-   @param n the length of the array
-   @param min a pointer to a variable holding the minimum
-   @param max a pointer to a variable holding the minimum
+   Computes the average of all nonnegative elements in the given array.
+   @param a an array of integers
+   @param alen the number of elements in a
+   @return the average of all nonnegative elements in a, or 0 if there are none.
 */
-void minmax(int* arr, int n, int* min, int* max);
-
-
-void minmax(int* arr, int n, int* min, int* max)
+double nnavg(int a[], int alen)
 {
-	for( int i = 0; i < n; i++ )
+   double sum = 0; int count = 0;
+	for(int i = 0; i < alen; i++)
 	{
-	  if( i == 0 )
-	  {
-		 *min = arr[0];
-		 *max = arr[0];
-	  }
-	  if( arr[i] < *min )
-		  *min = arr[i];
-	  if( arr[i] > *max )
-	  		  *max = arr[i];
-	}
-}
-
-/*
-  Return a pointer to the nth occurrence of a repeated character
-  in the given string. For example, if str is "occurrence" and n is 2,
-  return a pointer to the first r.
-*/
-const char* nthrep(const char* str, int n);
-
-const char* nthrep(const char* str, int n)
-{
-	int r = 0; char c = '\0';
-	for (int i = 0; i < strlen(str) - 1; i++)
-	{
-		if ( c != str[i] && str[i] == str[i+1] )
+		if( a[i] >= 0 )
 		{
-			r++;
-			c = str[i];
+			sum += a[i];
+			count++;
 		}
-
-		if( r == n )
-			return &str[i];
 	}
-	return NULL;
+	return count == 0 ? 0 : sum / count;
 }
 
-/*
-  Repeats a string n times and places it into a buffer, filling
-  it up as much as possible, and providing a terminating 0.
-  Use strncpy.
-  @param str a string
-  @param n an integer
-  @param result a character array to hold the result
-  @param sz the size of result
-*/
-void repeat(const char* str, int n, char result[], int sz);
-
-void repeat(const char* str, int n, char result[], int sz)
-{
-	char temp[strlen(str) * n];
-	for(int i =0; i < sz-1; i++ )
-	{
-		temp[i] = str[(i+strlen(str))%strlen(str)];
-	}
-	temp[sz-1] = '\0';
-	strncpy( result, temp,  sz);
-}
 
 /**
-   Duplicate the beginning and the end of the given array
-   numbers. You are given the number of elements of the array.
-
-   For example, 1 2 4 8 should turn into 1 1 2 4 8 8.
-
-   Allocate a new array and place all numbers into it (that is,
-   the duplicates at the beginning and the end, and all numbers
-   in between).
-
-   If the array is empty, return an array holding two zeroes.
-
-   Use the C++ style new operator.
-
-   Return a pointer to the new array. Do not modify the original array.
+   Swaps the third and last value of a.
+   For example, if a is {3, 1, 4, 1, 5, 9, 2, 6}
+   after calling this method it is {3, 1, 6, 1, 5, 9, 1, 4}.
+   If the array has length < 3, do nothing.
+   @param a a vector of integers
 */
-void print_array(int a[], int n)
+void swap3last(vector<int>& a)
 {
-   if (n == 0) { cout << "{}" << endl; return; }
-   cout << "{ ";
-   for (int i = 0; i < n; i++)
+	if(! ( a.size() < 3 ) )
+	{
+		int temp = a[2];
+		a[2] = a[a.size() -1];
+		a[a.size() -1] = temp;
+	}
+}
+void print(const vector<int>& v)
+{
+   cout << "{";
+   for (int i = 0; i < v.size(); i++)
    {
-      if (i > 0) cout << ", ";
-      cout << a[i];
+      cout << v[i];
+      if (i < v.size() - 1) cout << ", ";
    }
-   cout << " }" << endl;
+   cout << "}" << endl;
 }
 
+/**
+   Replaces each element in an array with the sum of itself and the
+   elements preceding it.
 
-int* dupefirstlast(int numbers[], int size);
+   For example { 1, 2, 3, 4 } turns into { 1, 3, 6, 10 }
 
-int* dupefirstlast(int numbers[], int size)
-{
-	int *array = new int[ size + 2 ];
-	if( size == 0 )
-	{
-		array[0]=0;array[1] = 0;
-	}
-	else
-	{
-		array[0] = numbers[0];
-		for( int i = 0; i < size; i++ )
-		{
-			array[i+1] = numbers[i];
-		}
-		array[ size +1] = numbers[size-1];
-	}
-
-	return array;
-}
-
-/*
-  You are given two time intervals with given start and end.
-  Compute the number of seconds in their overlap, or 0 if the
-  time intervals don't overlap.
+   Do not declare any arrays or vectors.
+   @param a an array
+   @param n the length of the array
 */
-int seconds_in_overlap(steady_clock::time_point start1,
-   steady_clock::time_point end1,
-   steady_clock::time_point start2,
-   steady_clock::time_point end2);
-
-int seconds_in_overlap(steady_clock::time_point start1,
-   steady_clock::time_point end1,
-   steady_clock::time_point start2,
-   steady_clock::time_point end2)
+void precedingsum(double a[], int n);
+void precedingsum(double a[], int n)
 {
-	int overlap;
-	if( time_point_cast<seconds>(start1).time_since_epoch().count() <= time_point_cast<seconds>(start2).time_since_epoch().count()
-			&& time_point_cast<seconds>(end1).time_since_epoch().count() <= time_point_cast<seconds>(end2).time_since_epoch().count() )
-		overlap = time_point_cast<seconds>(end1).time_since_epoch().count() - time_point_cast<seconds>(start2).time_since_epoch().count();
-
-	if( time_point_cast<seconds>(start1).time_since_epoch().count() <= time_point_cast<seconds>(start2).time_since_epoch().count()
-				&& time_point_cast<seconds>(end2).time_since_epoch().count() <= time_point_cast<seconds>(end1).time_since_epoch().count() )
-		overlap = time_point_cast<seconds>(end2).time_since_epoch().count() - time_point_cast<seconds>(start2).time_since_epoch().count();
-
-	if( time_point_cast<seconds>(start2).time_since_epoch().count() <= time_point_cast<seconds>(start1).time_since_epoch().count()
-				&& time_point_cast<seconds>(end1).time_since_epoch().count() <= time_point_cast<seconds>(end2).time_since_epoch().count() )
-		overlap = time_point_cast<seconds>(end1).time_since_epoch().count() - time_point_cast<seconds>(start1).time_since_epoch().count();
-
-	if( time_point_cast<seconds>(start2).time_since_epoch().count() <= time_point_cast<seconds>(start1).time_since_epoch().count()
-					&& time_point_cast<seconds>(end2).time_since_epoch().count() <= time_point_cast<seconds>(end1).time_since_epoch().count() )
-		overlap = time_point_cast<seconds>(end2).time_since_epoch().count() - time_point_cast<seconds>(start1).time_since_epoch().count();
-
-	return overlap < 0 ? 0 : overlap;
+	double sum = 0;
+	for(int i = 0; i < n; i++)
+	{
+	   sum += a[i];
+		a[i] = sum;
+	}
+}
+void print(double v[], int size)
+{
+   cout << "{";
+   for (int i = 0; i < size; i++)
+   {
+      cout << v[i];
+      if (i < size - 1) cout << ", ";
+   }
+   cout << "}" << endl;
 }
 
+/**
+   Return a string that mixes the characters in the string a
+   with the characters in b reversed. For example,
+   intertwine("Fred", "Mary") yields "FyrreadM".
+
+   If one string is longer than the other, append the unused
+   characters (in reverse order if the second string is longer).
+   intertwine("Sue", "Peggy") yields "SyugegeP".
+*/
+string intertwine(string a, string b)
+{
+	string interW;
+	for( int i = 0; i < a.length() || i < b.length(); ++i  )
+	{
+		if( i < a.length() )
+		{
+			interW = interW + a.at(i);
+		}
+		if( i < b.length() )
+		{
+			interW = interW + b.at( b.length() - i -1 );
+		}
+	}
+	return interW;
+}
+
+//IGNORESPACE false
+/**
+   This program reads in the name of a file from stdin.
+   Then it opens the file and reads all lines of the file.
+   Each line has the form
+
+   label abbreviation value
+
+   The label and abbreviation are nonempty strings without spaces.
+   The value is a floating-point number.
+
+   Print out the label and abbreviation with the smallest and
+   largest value, in a left-justified, field of width 50,
+   followed by the value in a right-justified field of width 10, with
+   three digits after the decimal point.
+*/
+void question5()
+{
+	cout << "Input file:" << endl;
+	string input_file;
+	cin >> input_file;
+	ifstream in(input_file);
+	string maxLabel, maxAbbreviation, minLabel, minAbbreviation, label, abbreviation; float maxValue, minValue, value;
+		for( int i = 0; !in.eof(); i++ )
+		{
+		   in >> label >> abbreviation >> value ;
+		   if( i == 0 )
+		   {
+		      maxLabel = label;
+		      maxAbbreviation = abbreviation;
+		      maxValue = value;
+		      minLabel = label;
+		      minAbbreviation = abbreviation;
+		      minValue = value;
+		   }
+
+			if( maxValue < value)
+			{
+				maxLabel = label;
+				maxAbbreviation = abbreviation;
+				maxValue = value;
+			}
+
+			if( minValue > value )
+			{
+				minLabel = label;
+				minAbbreviation = abbreviation;
+				minValue = value;
+			}
+		}
+		cout << setw(50) << left << minLabel + " " + minAbbreviation << setw(12) << right << fixed << setprecision(2) << minValue << endl;
+		cout << setw(50) << left << maxLabel + " " + maxAbbreviation << setw(12) << right << fixed << setprecision(2) << maxValue << endl;
+	in.close();
+}
 int main()
 {
-//	int a[] = { 1, 4, 9, -4, 8, 0 };
-//	int r1 = -999;
-//	int r2 = -999;
-//	minmax(a, sizeof(a) / sizeof(a[0]), &r1, &r2);
-//	cout << r1 << " " << r2 << endl;
-//	cout << "Expected: -4 9" << endl;
+//	vector<int> values = { 3, 1, 4, 1, 5, 9, 2, 6 };
+//	swap3last(values);
+//	print(values);
+//	cout << "Expected: {3, 1, 6, 1, 5, 9, 2, 4}" << endl;
 //
-//	int b[] = { 1 };
-//	r1 = -999;
-//	r2 = -999;
-//	minmax(b, sizeof(b) / sizeof(b[0]), &r1, &r2);
-//	cout << r1 << " " << r2 << endl;
-//	cout << "Expected: 1 1" << endl;
+//	vector<int> values2 = { 1, -2, 3, -4, 5, -6 };
+//	swap3last(values2);
+//	print(values2);
+//	cout << "Expected: {1, -2, -6, -4, 5, 3}" << endl;
 //
-//	int c[] = { 1, 4, 9, -4, 8, 0, 11, 23, -12 };
-//	r1 = -999;
-//	r2 = -999;
-//	minmax(c, sizeof(c) / sizeof(c[0]), &r1, &r2);
-//	cout << r1 << " " << r2 << endl;
-//	cout << "Expected: -12 23" << endl;
+//	vector<int> values3 = { 1, 2, 3, 4 };
+//	swap3last(values3);
+//	print(values3);
+//	cout << "Expected: {1, 2, 4, 3}" << endl;
 //
-//	r1 = -999;
-//	r2 = -999;
-//	minmax(c, 0, &r1, &r2);
-//	cout << r1 << " " << r2 << endl;
-//	cout << "Expected: -999 -999" << endl;
+//	vector<int> values4 = { 1, 2, 3 };
+//	swap3last(values4);
+//	print(values4);
+//	cout << "Expected: {1, 2, 3}" << endl;
+//
+//	vector<int> values5 = { 1 };
+//	swap3last(values5);
+//	print(values5);
+//	cout << "Expected: {1}" << endl;
+//
+//	vector<int> values6 = {};
+//	swap3last(values6);
+//	print(values6);
+//	cout << "Expected: {}" << endl;
 
-//	const char* p = "occurrence";
-//	const char* r = nthrep(p, 1);
-//	cout << r - p << endl;
-//	cout << "Expected: 1" << endl;
-//	r = nthrep(p, 2);
-//	cout << r - p << endl;
-//	cout << "Expected: 4" << endl;
-//	r = nthrep(p, 3);
-//	cout << boolalpha << (r == NULL) << endl;
-//	cout << "Expected: true" << endl;
-//	p = "abbaccccaddabbra";
-//	r = nthrep(p, 2);
-//	cout << r - p << endl;
-//	cout << "Expected: 4" << endl;
-//	r = nthrep(p, 3);
-//	cout << r - p << endl;
-//	cout << "Expected: 9" << endl;
+//	double values[] = { 3, 1, 4, 1, 5, 9, 2, 6 };
+//	precedingsum(values, sizeof(values) / sizeof(values[0]));
+//	print(values, sizeof(values) / sizeof(values[0]));
+//	cout << "Expected: {3, 4, 8, 9, 14, 23, 25, 31}" << endl;
+//
+//	double values2[] = { 1, -2, 3, -4, 5, -6 };
+//	precedingsum(values2, sizeof(values2) / sizeof(values2[0]));
+//	print(values2, sizeof(values2) / sizeof(values2[0]));
+//	cout << "Expected: {1, -1, 2, -2, 3, -3}" << endl;
+//
+//	double values3[] = { 1, 2 };
+//	precedingsum(values3, sizeof(values3) / sizeof(values3[0]));
+//	print(values3, sizeof(values3) / sizeof(values3[0]));
+//	cout << "Expected: {1, 3}" << endl;
+//
+//	double values4[] = { 1 };
+//	precedingsum(values4, sizeof(values4) / sizeof(values4[0]));
+//	print(values4, sizeof(values4) / sizeof(values4[0]));
+//	cout << "Expected: {1}" << endl;
+//
+//	double values5[] = {};
+//	precedingsum(values5, sizeof(values5) / sizeof(values5[0]));
+//	print(values5, sizeof(values5) / sizeof(values5[0]));
+//	cout << "Expected: {}" << endl;
 
-//	char results[28];
-//	char* r2 = results;
-//	char* r1 = results + 10;
-//	char* r4 = results + 21;
-//	char* r3 = results + 22;
-//	char* r5 = results + 26;
-//	strcpy(r5, "x");
-//	repeat("Hello", 2, r1, 11);
-//	repeat("Goodbye", 3, r2, 10);
-//	repeat("Goodbye", 3, r3, 4);
-//	repeat("HI", 10, r4, 1);
-//	cout << r1 << endl;
-//	cout << "Expected: HelloHello" << endl;
-//	cout << r2 << endl;
-//	cout << "Expected: GoodbyeGo" << endl;
-//	cout << r3 << endl;
-//	cout << "Expected: Goo" << endl;
-//	cout << "\"" << r4 << "\"" << endl;
-//	cout << "Expected: \"\"" << endl;
-//	cout << "\"" << r5 << "\"" << endl;
-//	cout << "Expected: \"x\"" << endl;
+//	cout << intertwine("Goodbye", "World") << endl;
 
-//	int a[] = { 1, 4, 9, 16, 25, 36, 49, 64};
-//	int* b = dupefirstlast(a, 8);
-//	print_array(b, 10);
-//	cout << "Expected: { 1, 1, 4, 9, 16, 25, 36, 49, 64, 64 }" << endl;
-//	delete[] b;
-//
-//	int* c = dupefirstlast(a, 3);
-//	print_array(c, 5);
-//	cout << "Expected: { 1, 1, 4, 9, 9 }" << endl;
-//	delete[] c;
-//
-//	int* d = dupefirstlast(a, 5);
-//	print_array(d, 7);
-//	cout << "Expected: { 1, 1, 4, 9, 16, 25, 25 }" << endl;
-//	delete[] d;
-//
-//	int* e = dupefirstlast(a, 0);
-//	print_array(e, 2);
-//	cout << "Expected: { 0, 0 }" << endl;
-//	delete[] e;
-//
-//	int* f = dupefirstlast(a, 1);
-//	print_array(f, 3);
-//	cout << "Expected: { 1, 1, 1 }" << endl;
-//	delete[] f;
-
-	steady_clock::time_point now = steady_clock::now();
-	steady_clock::time_point later1 = now + std::chrono::seconds(4);
-	steady_clock::time_point later2 = now + std::chrono::seconds(10);
-	steady_clock::time_point later3 = now + std::chrono::seconds(20);
-	steady_clock::time_point earlier = now + std::chrono::seconds(-10);
-	cout << seconds_in_overlap(now, later2, earlier, later1) << endl;
-	cout << "Expected: 4" << endl;
-	cout << seconds_in_overlap(earlier, later1, now, later2) << endl;
-	cout << "Expected: 4" << endl;
-	cout << seconds_in_overlap(earlier, now, later1, later2) << endl;
-	cout << "Expected: 0" << endl;
-	cout << seconds_in_overlap(later1, later2, earlier, now) << endl;
-	cout << "Expected: 0" << endl;
-	cout << seconds_in_overlap(earlier, later2, now, later1) << endl;
-	cout << "Expected: 4" << endl;
-	cout << seconds_in_overlap(later1, later2, earlier, later3) << endl;
-	cout << "Expected: 6" << endl;
-	cout << seconds_in_overlap(now, later1, later2, later3) << endl;
-	cout << "Expected: 0" << endl;
-	cout << seconds_in_overlap(now, later2, now, later3) << endl;
-	cout << "Expected: 10" << endl;
-	cout << seconds_in_overlap(now, later3, now, later3) << endl;
-	cout << "Expected: 20" << endl;
-	cout << seconds_in_overlap(earlier, later3, now, later2) << endl;
-	cout << "Expected: 10" << endl;
 
 	return 0;
 }

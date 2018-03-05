@@ -7,232 +7,361 @@
 //============================================================================
 
 #include <iostream>
-#include <iomanip>
-#include <vector>
-#include <string>
-#include <fstream>
+#include <cmath>
+#include <cstdlib>
 
 using namespace std;
 
-
+/*
+ * Question 1
+ */
 /**
-   Computes the average of all nonnegative elements in the given array.
-   @param a an array of integers
-   @param alen the number of elements in a
-   @return the average of all nonnegative elements in a, or 0 if there are none.
+   Computes the smallest of four values.
 */
-double nnavg(int a[], int alen)
+int min(int a, int b, int c, int d)
 {
-   double sum = 0; int count = 0;
-	for(int i = 0; i < alen; i++)
-	{
-		if( a[i] >= 0 )
-		{
-			sum += a[i];
-			count++;
-		}
+   int result = a;
+   if (b < result) result = b;
+   if (c < result) result = c;
+   if (d < result) result = d;
+   return result;
+}
+/**
+   Computes the average of the middle values of four given values
+   (that is, without the largest and smallest value).
+   Hint: Use the given min function. You may also want to define a
+   max helper function or take advantage of the fact that max can be
+   computed from the min of the negative values.
+*/
+double middle(int a, int b, int c, int d)
+{
+	int minimum = min(a, b, c, d);
+	int maximum = -min(-a, -b, -c, -d);
+	if( ( minimum == b || minimum == c ) && ( maximum ==b  || maximum == c ) ){
+		return (a+b)/2.0;
 	}
-	return count == 0 ? 0 : sum / count;
-}
-
-
-/**
-   Swaps the third and last value of a.
-   For example, if a is {3, 1, 4, 1, 5, 9, 2, 6}
-   after calling this method it is {3, 1, 6, 1, 5, 9, 1, 4}.
-   If the array has length < 3, do nothing.
-   @param a a vector of integers
-*/
-void swap3last(vector<int>& a)
-{
-	if(! ( a.size() < 3 ) )
-	{
-		int temp = a[2];
-		a[2] = a[a.size() -1];
-		a[a.size() -1] = temp;
-	}
-}
-void print(const vector<int>& v)
-{
-   cout << "{";
-   for (int i = 0; i < v.size(); i++)
-   {
-      cout << v[i];
-      if (i < v.size() - 1) cout << ", ";
-   }
-   cout << "}" << endl;
-}
-
-/**
-   Replaces each element in an array with the sum of itself and the
-   elements preceding it.
-
-   For example { 1, 2, 3, 4 } turns into { 1, 3, 6, 10 }
-
-   Do not declare any arrays or vectors.
-   @param a an array
-   @param n the length of the array
-*/
-void precedingsum(double a[], int n);
-void precedingsum(double a[], int n)
-{
-	double sum = 0;
-	for(int i = 0; i < n; i++)
-	{
-	   sum += a[i];
-		a[i] = sum;
-	}
-}
-void print(double v[], int size)
-{
-   cout << "{";
-   for (int i = 0; i < size; i++)
-   {
-      cout << v[i];
-      if (i < size - 1) cout << ", ";
-   }
-   cout << "}" << endl;
-}
-
-/**
-   Return a string that mixes the characters in the string a
-   with the characters in b reversed. For example,
-   intertwine("Fred", "Mary") yields "FyrreadM".
-
-   If one string is longer than the other, append the unused
-   characters (in reverse order if the second string is longer).
-   intertwine("Sue", "Peggy") yields "SyugegeP".
-*/
-string intertwine(string a, string b)
-{
-	string interW;
-	for( int i = 0; i < a.length() || i < b.length(); ++i  )
-	{
-		if( i < a.length() )
-		{
-			interW = interW + a.at(i);
-		}
-		if( i < b.length() )
-		{
-			interW = interW + b.at( b.length() - i -1 );
-		}
-	}
-	return interW;
-}
-
-//IGNORESPACE false
-/**
-   This program reads in the name of a file from stdin.
-   Then it opens the file and reads all lines of the file.
-   Each line has the form
-
-   label abbreviation value
-
-   The label and abbreviation are nonempty strings without spaces.
-   The value is a floating-point number.
-
-   Print out the label and abbreviation with the smallest and
-   largest value, in a left-justified, field of width 50,
-   followed by the value in a right-justified field of width 10, with
-   three digits after the decimal point.
-*/
-void question5()
-{
-	cout << "Input file:" << endl;
-	string input_file;
-	cin >> input_file;
-	ifstream in(input_file);
-	string maxLabel, maxAbbreviation, minLabel, minAbbreviation, label, abbreviation; float maxValue, minValue, value;
-		for( int i = 0; !in.eof(); i++ )
-		{
-		   in >> label >> abbreviation >> value ;
-		   if( i == 0 )
-		   {
-		      maxLabel = label;
-		      maxAbbreviation = abbreviation;
-		      maxValue = value;
-		      minLabel = label;
-		      minAbbreviation = abbreviation;
-		      minValue = value;
-		   }
-
-			if( maxValue < value)
-			{
-				maxLabel = label;
-				maxAbbreviation = abbreviation;
-				maxValue = value;
+	else if( ( minimum == b || minimum ==d ) && ( maximum == b || maximum ==d ) ){
+				return (a+c)/2.0;
 			}
+	else if( ( minimum == b || minimum ==c ) && ( maximum == b || maximum ==c ) ){
+				return (a+d)/2.0;
+			}
+	else if( ( minimum == a || minimum ==d ) && ( maximum == a || maximum ==d ) ){
+		return (b+c)/2.0;
+	}
+	else if( ( minimum == b || minimum ==c ) && ( maximum == b || maximum ==c ) ){
+				return (b+d)/2.0;
+			}
+	else if( ( minimum == a || minimum ==b ) && ( maximum == a || maximum ==d ) ){
+					return (c+d)/2.0;
+				}
+	return 0;
+}
+/*
+ * Question 2
+ */
 
-			if( minValue > value )
+/*
+  Write a function that computes how many digits two positive
+  integers m and n have in common. For example, if m is 112358 and
+  n is 179881, then the result is 2 because the numbers have the digits
+  1 and 8 in common. It does not matter how often a digit occurs.
+
+  Hint: This loop yields all digits of a positive number n:
+
+  while (n > 0)
+  {
+     int digit = n % 10;
+     n = n / 10;
+     // Process digit
+  }
+*/
+int n1=0, n2=0, n3=0, n4=0, n5=0, n6=0, n7=0, n8=0, n9=0, n0=0;
+// Add any helper functions here
+bool searchNumber(int number)
+{
+	switch(number)
+	{
+		case 0:
+			if(n0 == 0)
 			{
-				minLabel = label;
-				minAbbreviation = abbreviation;
-				minValue = value;
+				n0++	;
+				return false;
+			}
+			break;
+		case 1:
+			if(n1 == 0)
+			{
+				n1++	;
+				return false;
+			}
+			break;
+		case 2:
+			if(n2 == 0)
+			{
+				n2++	;
+				return false;
+			}
+			break;
+		case 3:
+			if(n3 == 0)
+			{
+				n3++	;
+				return false;
+			}
+			break;
+		case 4:
+			if(n4 == 0)
+			{
+				n4++	;
+				return false;
+			}
+			break;
+		case 5:
+			if(n5 == 0)
+			{
+				n5++	;
+				return false;
+			}
+			break;
+		case 6:
+			if(n6 == 0)
+			{
+				n6++	;
+				return false;
+			}
+			break;
+		case 7:
+			if(n7 == 0)
+			{
+				n7++	;
+				return false;
+			}
+			break;
+		case 8:
+			if(n8 == 0)
+			{
+				n8++	;
+				return false;
+			}
+			break;
+		case 9:
+			if(n9 == 0)
+			{
+				n9++	;
+				return false;
+			}
+			break;
+	}
+	return true;
+}
+int digitsInCommon(int m, int n)
+{
+	int second =m;//Store second number:- n, to loop this again with digits in first number.
+	int count =0; // variables to save different digits and digits common counter.
+	for( int i =0; n > 0 ; i++ )
+	{
+		int nNumber = n % 10;
+		n = n / 10;
+		m = second; // Make sure to do this as we are over writing m value.
+		for( int j =0; m > 0 ; j++ )
+		{
+			int mNumber = m % 10;
+			m = m / 10;
+
+			if( nNumber == mNumber && !searchNumber(nNumber)) // check if you found a match.
+			{
+				count++; // Save counter and different digits if no repetition is found.
 			}
 		}
-		cout << setw(50) << left << minLabel + " " + minAbbreviation << setw(12) << right << fixed << setprecision(2) << minValue << endl;
-		cout << setw(50) << left << maxLabel + " " + maxAbbreviation << setw(12) << right << fixed << setprecision(2) << maxValue << endl;
-	in.close();
+	}
+	return count;
+}
+
+/*
+ * Question 3
+ */
+
+// Place any helper functions here
+double ceil(double v, int p)
+{
+  v *= pow(10, p);
+  v = ceil(v);
+  v /= pow(10, p);
+  return v;
+}
+/*
+  Write a function that converts US time with hours, minutes, seconds,
+  am/pm to "decimal time". In decimal time, the day has ten "hours",
+  of 100 "minutes" each, and each "minute" has 100 "seconds". Return
+  a floating-point number whose integral part is the decimal hours
+  and whose fractional part are 0.01 * decimal minutes + 0.0001 *
+  decimal seconds. Round to the nearest decimal second. If the inputs
+  are invalid, return -1.
+*/
+double decimal_time(int hours, int minutes, int seconds, bool pm)
+{
+
+	if( hours <= 0 || minutes < 0 || seconds < 0 || hours > 24 || minutes > 60 || seconds > 60 )
+		return -1;
+	return ceil( ( ( pm == true ? ( hours == 12 ? 12 : ( hours + 12 ) ) : ( hours == 12 ? 0 : hours ) ) * ( 10.0 / 24 ) )
+					+ ( minutes / ( 24.0 * 60.0 * 0.1 ) )
+					+ ( seconds / ( 24.0 * 60.0 * 60.0 * 0.1 ) ) , 4);
+}
+
+/*
+ * Question 4
+ */
+/*
+  The Chevalier de Blasé, a notorious 17th century gambler, wanted to
+  know whether he had higher odds of winning a dice game with four
+  dice, where a win meant a pair of 5s and a pair of 6s, or a game
+  with six dice, where a win meant four sixes (and two dice
+  that are not a six).
+
+  Help him out by writing a simulation that "throws" virtual dice
+  with a random number generator.
+*/
+
+/*
+  Return a random number between 1 and 6.
+*/
+int die_toss()
+{
+   return 1 + rand() % 6;
+}
+
+/*
+  Return true if you got a pair of 5s and 6s.
+*/
+int game1_wins(int a, int b, int c, int d)
+{
+	return ( ( a == 5 && b == 5 && c == 6 && d == 6 )
+			|| ( a == 6 && b == 6 && c == 5 && d == 5 )
+			|| ( a == 5 && b == 6 && c == 5 && d == 6 )
+			|| ( a == 6 && b == 5 && c == 6 && d == 5 )
+			|| ( a == 5 && b == 6 && c == 6 && d == 5 )
+			|| ( a == 6 && b == 5 && c == 5 && d == 6 ) ) ? 1 : 0;
+}
+
+/*
+  Return true if you got four 6s.
+*/
+int game2_wins(int a, int b, int c, int d, int e, int f)
+{
+	return ( ( a == 6 ) + ( b == 6 ) + ( c == 6 ) + ( d == 6 ) + ( e == 6 ) + ( f == 6 ) ) == 4 ? 1: 0;
+}
+/*
+  Play game 1 for the given number of iterations and return the
+  number of wins.
+*/
+int game1(int iterations)
+{
+	int wins =0;
+	while( iterations > 0 )
+	{
+		if( game1_wins( die_toss(), die_toss(), die_toss(), die_toss() ) == 1)
+			wins++;
+		iterations--;
+	}
+	return wins;
+}
+/*
+  Play game 2 for the given number of iterations and return the
+  number of wins.
+*/
+int game2(int iterations)
+{
+	int wins =0;
+		while( iterations > 0 )
+		{
+			if( game2_wins( die_toss(), die_toss(), die_toss(), die_toss(), die_toss(), die_toss() ) == 1)
+				wins++;
+			iterations--;
+		}
+		return wins;
+}
+
+/*
+ * Question 5
+ */
+/*
+  Returns a random number between 0 and 1.
+*/
+double rand_double()
+{
+   return rand() * 1.0 / RAND_MAX;
+}
+
+/*
+  The "Las Vegas" method of finding the area of a circle works
+  as follows. Consider a square with side length r with a
+  quarter circle inscribed, like in this ASCII art:
+
+r .....
+  |    ....
+  |        ...
+  |   (x,y)   .
+  |  *         .
+  |            .
+  +------------.
+(0, 0)         r
+
+  Take a machine gun and fire bullets into the square. If
+  a bullet lands inside the quarter circle, it's a hit. Otherwise
+  it's a miss. The ratio of hits to tries is proportional to
+  the ratio of the areas of the quarter circle and the square.
+
+  Generate random points (x, y) in the square. Check whether they
+  are inside the circle. Return the ratio of hits to tries.
+
+ */
+double inside_quarter_circle(double radius, int tries)
+{
+	double xCor, yCor; int hits=0;
+	for( int i =0; i < tries; i++ )
+	{
+		xCor = rand_double();
+		yCor = rand_double();
+		if( xCor * xCor + yCor * yCor <= 1 )
+		  hits++;
+	}
+	return (double)hits / tries;
 }
 int main()
 {
-//	vector<int> values = { 3, 1, 4, 1, 5, 9, 2, 6 };
-//	swap3last(values);
-//	print(values);
-//	cout << "Expected: {3, 1, 6, 1, 5, 9, 2, 4}" << endl;
-//
-//	vector<int> values2 = { 1, -2, 3, -4, 5, -6 };
-//	swap3last(values2);
-//	print(values2);
-//	cout << "Expected: {1, -2, -6, -4, 5, 3}" << endl;
-//
-//	vector<int> values3 = { 1, 2, 3, 4 };
-//	swap3last(values3);
-//	print(values3);
-//	cout << "Expected: {1, 2, 4, 3}" << endl;
-//
-//	vector<int> values4 = { 1, 2, 3 };
-//	swap3last(values4);
-//	print(values4);
-//	cout << "Expected: {1, 2, 3}" << endl;
-//
-//	vector<int> values5 = { 1 };
-//	swap3last(values5);
-//	print(values5);
-//	cout << "Expected: {1}" << endl;
-//
-//	vector<int> values6 = {};
-//	swap3last(values6);
-//	print(values6);
-//	cout << "Expected: {}" << endl;
+	/*
+	 * Question 1
+	 */
+	cout << "!!!Hello World!!!" << middle(10, 24, 6, 5) << endl; // prints !!!Hello World!!!
+	/*
+	 * Question 2
+	 */
+	cout<< digitsInCommon(1234567890, 987654321) << endl;
+	/*
+	 * Question 3
+	 */
+	cout << decimal_time(9, 0, 0, false) << endl;
+	/*
+	 * Question 4
+	 */
+	srand(42);
+	cout << game1(1000) << endl;
+	cout << game2(1000) << endl;
+	cout << game1(10000) << endl;
+	cout << game2(10000) << endl;
+	cout << game1(100000) << endl;
+	cout << game2(100000) << endl;
+	cout << game1(1000000) << endl;
+	cout << game2(1000000) << endl;
 
-//	double values[] = { 3, 1, 4, 1, 5, 9, 2, 6 };
-//	precedingsum(values, sizeof(values) / sizeof(values[0]));
-//	print(values, sizeof(values) / sizeof(values[0]));
-//	cout << "Expected: {3, 4, 8, 9, 14, 23, 25, 31}" << endl;
-//
-//	double values2[] = { 1, -2, 3, -4, 5, -6 };
-//	precedingsum(values2, sizeof(values2) / sizeof(values2[0]));
-//	print(values2, sizeof(values2) / sizeof(values2[0]));
-//	cout << "Expected: {1, -1, 2, -2, 3, -3}" << endl;
-//
-//	double values3[] = { 1, 2 };
-//	precedingsum(values3, sizeof(values3) / sizeof(values3[0]));
-//	print(values3, sizeof(values3) / sizeof(values3[0]));
-//	cout << "Expected: {1, 3}" << endl;
-//
-//	double values4[] = { 1 };
-//	precedingsum(values4, sizeof(values4) / sizeof(values4[0]));
-//	print(values4, sizeof(values4) / sizeof(values4[0]));
-//	cout << "Expected: {1}" << endl;
-//
-//	double values5[] = {};
-//	precedingsum(values5, sizeof(values5) / sizeof(values5[0]));
-//	print(values5, sizeof(values5) / sizeof(values5[0]));
-//	cout << "Expected: {}" << endl;
-
-//	cout << intertwine("Goodbye", "World") << endl;
-
-
+	/*
+	 * Question 5
+	 */
+	srand(42);
+	cout << inside_quarter_circle(1, 1000) << endl;
+	cout << inside_quarter_circle(20, 1000) << endl;
+	// Approximating pi
+	cout << 4 * inside_quarter_circle(1, 10000000) << endl;
 	return 0;
 }
