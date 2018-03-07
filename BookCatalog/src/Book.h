@@ -37,19 +37,19 @@ public:
     ~Book();
 
     //Gets ISBN number of book
-    string get_isbn();
+    string get_isbn() const;
 
     //Gets last name of the author
-    string get_author_lastname();
+    string get_author_lastname() const;
 
     //Gets first name of the author
-	string get_author_firstname();
+	string get_author_firstname() const;
 
 	//Gets title of the book
-	string get_title();
+	string get_title() const;
 
 	//Gets category of the book
-	Category get_category();
+	Category get_category() const;
 
 	//overloading output stream
 	friend ostream & operator << (ostream &os, const Book &book);

@@ -29,6 +29,7 @@ Point& Point::operator=(const Point& other)
    cout << "Assigning (" << other.x() << "," << other.y() << ") to (" << x() << "," << y() << ")" << endl;
    _x = other._x;
    _y = other._y;
+   return *this;
 }
 
 Point::~Point()
