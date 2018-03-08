@@ -31,7 +31,7 @@ Book::Book(string isbn, string last, string first, string title, Category catego
  */
 Book::~Book()
 {
-	cout << "Removed " << *this;
+	//cout << "Removed " << *this;
 }
 
 //Gets ISBN number of book

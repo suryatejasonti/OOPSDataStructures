@@ -111,24 +111,26 @@ vector<int> & linearsearch(const vector<Book>& catalog, const Book & book, vecto
 vector<Book> & insert(vector<Book> &catalog, const Book& book)
 {
 	int size = catalog.size();
-	if(size == 0 || size ==1)
-	{
-		catalog.insert(catalog.begin() + size, book);
-		cout << "Inserted at index " << size << ": " << book;
-		return catalog;
-	}
-
-	int bookisbn, leftisbn, rightisbn;
+	int bookisbn, leftisbn, rightisbn, index = 0;
 	for(int i = 0; i < size; i++)
 	{
 		bookisbn = stoi(book.get_isbn().substr(4));
 		leftisbn = stoi(catalog[i].get_isbn().substr(4));
+		if(size == 1 && bookisbn < leftisbn)
+		{
+			index = 0;
+			break;
+		}
+		else if(size ==1 && bookisbn > leftisbn)
+		{
+			index = 1;
+			break;
+		}
 		rightisbn = stoi(catalog[i+1].get_isbn().substr(4));
 		if(leftisbn < bookisbn && rightisbn > bookisbn)
 		{
-			catalog.insert(catalog.begin() + i+1, book);
-			cout << "Inserted at index " << i+1 << ": " << book;
-			return catalog;
+			index = i+1;
+			break;
 		}
 		if(leftisbn == bookisbn || rightisbn == bookisbn)
 		{
@@ -137,6 +139,8 @@ vector<Book> & insert(vector<Book> &catalog, const Book& book)
 			return catalog;
 		}
 	}
+	catalog.insert(catalog.begin() + index, book);
+	cout << "Inserted at index " << index << ": " << book;
 	return catalog;
 }
 
@@ -144,13 +148,14 @@ vector<Book> & remove(vector<Book> &catalog, const Book & book)
 {
 	vector<int> indeces;
 	indeces = binarysearch(catalog, book, indeces);
-	cout << "Removed " << book;
 	if(indeces[0] > -1)
 	{
+		cout << "Removed " << catalog[indeces[0]];
 		catalog.erase(catalog.begin() + indeces[0]);
 	}
 	else
 	{
+		cout << "Removed " << book;
 		cout << "*** Book not found ***" << endl;
 	}
 	return catalog;
@@ -171,26 +176,25 @@ void search(const vector<Book> &catalog, const Book & book)
 	}
 	if(singlesearch)
 	{
-		string temp1 = indeces.size() > 1 ? "Books " : "Book ";
-		string temp2, temp3;
+		string temp1, temp2;
 		if(book.get_isbn() != "" && book.get_isbn() != "all")
-			temp2 = "with ISBN ";
+			temp1 = "Book with ISBN ";
 		if(book.get_author_lastname() != "" && book.get_author_lastname() != "all")
-			temp2 = "by author ";
+			temp1 = "Books by author ";
 		if(book.get_category() != Book::Category::NONE)
-			temp2 = "in category ";
+			temp1 = "Books in category ";
 		if(book.get_isbn() != "" && book.get_isbn() != "all")
-			temp3 = book.get_isbn();
+			temp2 = book.get_isbn();
 		if(book.get_author_lastname() != "" && book.get_author_lastname() != "all")
-			temp3 = book.get_author_lastname();
+			temp2 = book.get_author_lastname();
 		if(book.get_category() != Book::Category::NONE)
 		{
 			stringstream cat;
 			cat << book.get_category();
-			cat >> temp3;
+			cat >> temp2;
 		}
 
-		cout << temp1 << temp2 << temp3 << ":"<< endl;
+		cout << temp1 << temp2 << ":"<< endl;
 
 		if(indeces[0] > -1)
 		{
@@ -237,25 +241,21 @@ int main()
 	while (!input.fail())
 	{
 		cout << endl << command << " ";
-
+		input >> book;
 		switch(command)
 		{
-		case '+':
-			input >> book;
-			catalog = insert(catalog, book);
-			break;
-		case '-':
-			input >> book;
-			catalog = remove(catalog, book);
-			break;
-		case '?':
-			input >> book;
-			search(catalog, book);
-			break;
-		default:
-			input >> book;
-			cout << "*** Invalid command ***" << endl;
-			break;
+			case '+':
+				catalog = insert(catalog, book);
+				break;
+			case '-':
+				catalog = remove(catalog, book);
+				break;
+			case '?':
+				search(catalog, book);
+				break;
+			default:
+				cout << "*** Invalid command ***" << endl;
+				break;
 		}
 		input >> command;
     }
