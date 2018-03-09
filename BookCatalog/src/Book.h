@@ -60,8 +60,6 @@ public:
 	//overloading input stream
 	friend istream & operator >> (istream &is, Book &book);
 
-	//overloading input stream for enum
-	friend istream & operator >> (istream &is, string category);
 
 private:
 
