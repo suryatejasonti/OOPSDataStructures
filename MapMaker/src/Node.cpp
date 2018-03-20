@@ -1,7 +1,7 @@
 #include <math.h>
 #include "Node.h"
 
-Node::Node():next(nullptr), name(""), state(""), row(0), col(0) { }
+Node::Node():next(nullptr), name(""), state(""), row(0), col(0), city() { }
 
 Node::Node(City city)
 {
@@ -9,6 +9,7 @@ Node::Node(City city)
 	state = city.get_state();
 	convert_coordinate(city.get_coordinate());
 	next = nullptr;
+	this->city = city;
 }
 
 Node::Node(Coordinate coordinate)
@@ -17,6 +18,8 @@ Node::Node(Coordinate coordinate)
 	state = "";
 	convert_coordinate(coordinate);
 	next = nullptr;
+	City cit(name, state, coordinate);
+	this->city = cit;
 }
 
 void Node::convert_coordinate(const Coordinate& coordinate)
@@ -29,8 +32,6 @@ bool Node::operator >(const Node& other)
 {
 	return row > other.row
 			|| (!(other.row > row) && col > other.col);
-	//return row > other.row && col == other.col;
-	//return row * row + col * col > other.row * other.row + other.col * other.col;
 }
 
 int Node::get_row()
@@ -43,8 +44,22 @@ int Node::get_col()
 	return col;
 }
 
+string Node::get_name()
+{
+	return name;
+}
+
+string Node::get_state()
+{
+	return state;
+}
+
+City Node::get_city()
+{
+	return city;
+}
 ostream& operator <<(ostream& outs, const Node& node)
 {
-	outs  << setfill(' ') << setw(node.col) << "#" << node.row << " " << node.col;
+	outs << "#";
 	return outs;
 }

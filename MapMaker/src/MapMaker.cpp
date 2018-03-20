@@ -27,7 +27,7 @@
 using namespace std;
 
 const string BOUNDARY_FILE_NAME = "/Users/suryasonti/eclipse-workspace/OOPSDataStructures/MapMaker/src/boundary-data.csv";
-const string CITY_FILE_NAME     = "city-data.csv";
+const string CITY_FILE_NAME     = "/Users/suryasonti/eclipse-workspace/OOPSDataStructures/MapMaker/src/city-data.csv";
 
 /**
  * Read and process the boundary data, then print the boundary map.
@@ -65,7 +65,7 @@ int main()
     input.close();
 
     cout << endl;
-/*
+
     // Open the city data file.
     input.open(CITY_FILE_NAME);
     if (input.fail())
@@ -80,7 +80,7 @@ int main()
 
     cout << endl << "Done!" << endl;
     return 0;
-    */
+
 }
 
 void do_boundary(ifstream& input, SortedLinkedList& list)

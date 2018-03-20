@@ -56,6 +56,6 @@ istream& operator >>(istream& ins, City& city)
 
 ostream& operator <<(ostream& outs, const City& city)
 {
-	outs << "*" << city.name << " " << city.state << endl;
+	outs << "*" << city.name << " " << city.state;
 	return outs;
 }

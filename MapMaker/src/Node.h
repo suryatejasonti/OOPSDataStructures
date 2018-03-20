@@ -23,6 +23,12 @@ public:
     int get_row();
 
     int get_col();
+
+    string get_name();
+
+    string get_state();
+
+    City get_city();
     /**
      * Overloaded > operator to compare two nodes.
      */
@@ -42,7 +48,7 @@ private:
     string state;  // city state, or the empty string for a border location
     int row;       // print row
     int col;       // print column
-
+    City city;
     /**
      * Convert a coordinate to a row and a column.
      * @param coordinate the coordinate to convert.
