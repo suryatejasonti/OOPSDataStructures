@@ -49,7 +49,7 @@ ostream& operator <<(ostream& outs, const SortedLinkedList& list)
 	while (current->next != NULL)
 	{
 	   /* Compare current node with next node */
-	   if (current->get_col() == current->next->get_col() || (current->get_state() != "" && current->get_state() == current->next->get_state()))
+	   if (current->get_col() == current->next->get_col() && current->get_row() == current->next->get_row())
 	   {
 		   /* The sequence of steps is important*/
 		   next_next = current->next->next;
