@@ -21,11 +21,11 @@ public:
 
 	City(string name, string state, Coordinate coordinate);
 
-	string get_name();
+	string get_name() const;
 
-	string get_state();
+	string get_state() const;
 
-	Coordinate get_coordinate();
+	Coordinate get_coordinate() const;
 
 	/**
      * Overloaded input stream operator to read a city

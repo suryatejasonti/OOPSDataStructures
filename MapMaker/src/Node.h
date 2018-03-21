@@ -18,17 +18,18 @@ public:
 
 	Node(City city);
 
+	~Node();
+
     Node *next;  // pointer to the next node in the list
 
-    int get_row();
+    int get_row() const;
 
-    int get_col();
+    int get_col() const;
 
-    string get_name();
+    string get_name() const;
 
-    string get_state();
+    string get_state() const;
 
-    City get_city();
     /**
      * Overloaded > operator to compare two nodes.
      */
@@ -49,6 +50,7 @@ private:
     int row;       // print row
     int col;       // print column
     City city;
+    Coordinate coordinate;
     /**
      * Convert a coordinate to a row and a column.
      * @param coordinate the coordinate to convert.

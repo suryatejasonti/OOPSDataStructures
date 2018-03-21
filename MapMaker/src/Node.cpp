@@ -10,6 +10,7 @@ Node::Node(City city)
 	convert_coordinate(city.get_coordinate());
 	next = nullptr;
 	this->city = city;
+	this->coordinate = city.get_coordinate();
 }
 
 Node::Node(Coordinate coordinate)
@@ -20,6 +21,13 @@ Node::Node(Coordinate coordinate)
 	next = nullptr;
 	City cit(name, state, coordinate);
 	this->city = cit;
+	this->coordinate = coordinate;
+}
+
+Node::~Node()
+{
+	coordinate.~Coordinate();
+	city.~City();
 }
 
 void Node::convert_coordinate(const Coordinate& coordinate)
@@ -34,32 +42,31 @@ bool Node::operator >(const Node& other)
 			|| (!(other.row > row) && col > other.col);
 }
 
-int Node::get_row()
+int Node::get_row() const
 {
 	return row;
 }
 
-int Node::get_col()
+int Node::get_col() const
 {
 	return col;
 }
 
-string Node::get_name()
+string Node::get_name() const
 {
 	return name;
 }
 
-string Node::get_state()
+string Node::get_state() const
 {
 	return state;
 }
 
-City Node::get_city()
-{
-	return city;
-}
 ostream& operator <<(ostream& outs, const Node& node)
 {
-	outs << "#";
+	if(node.name != "")
+		outs << node.city;
+	else
+		outs << node.coordinate;
 	return outs;
 }

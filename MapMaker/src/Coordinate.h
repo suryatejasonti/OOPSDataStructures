@@ -30,6 +30,7 @@ public:
      */
     friend istream& operator >>(istream& ins, Coordinate& coordinate);
 
+    friend ostream& operator <<(ostream& outs, const Coordinate& coordinate);
 
     // Constants for this app's input data.
     static const double MAX_LATITUDE;

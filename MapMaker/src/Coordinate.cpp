@@ -9,7 +9,6 @@ const double Coordinate::MIN_LONGITUDE = -124.769867;
 
 Coordinate::Coordinate():latitude(0), longitude(0) { }
 
-
 Coordinate::Coordinate(double latitude, double longitude):latitude(latitude), longitude(longitude) { }
 
 double Coordinate::get_latitude() const
@@ -37,6 +36,7 @@ void stringparse(vector<string> &dataout, string &datain, const string &delimite
 
 istream& operator >>(istream& ins, Coordinate& coordinate)
 {
+	/* read line and parse string to get two variables*/
 	string data;
 	vector<string> vecdata;
 	getline(ins, data, '\n');
@@ -48,4 +48,9 @@ istream& operator >>(istream& ins, Coordinate& coordinate)
 	}
 	return ins;
 }
-
+ostream& operator <<(ostream& outs, const Coordinate& coordinate)
+{
+	/* print # */
+	outs << "#";
+	return outs;
+}

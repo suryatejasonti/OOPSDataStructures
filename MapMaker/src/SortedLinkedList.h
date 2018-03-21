@@ -14,7 +14,8 @@ public:
     SortedLinkedList();
 
     SortedLinkedList(Node * head);
-
+    /* Destructor*/
+    ~SortedLinkedList();
     /**
      * Insert a node into the linked list at the correct position
      * to maintain sort order.

@@ -10,17 +10,17 @@ City::City()
 
 City::City(string name, string state, Coordinate coordinate):name(name), state(state), coordinate(coordinate) { }
 
-string City::get_name()
+string City::get_name() const
 {
 	return name;
 }
 
-string City::get_state()
+string City::get_state() const
 {
 	return state;
 }
 
-Coordinate City::get_coordinate()
+Coordinate City::get_coordinate() const
 {
 	return coordinate;
 }
@@ -40,6 +40,7 @@ void parsestring(vector<string> &dataout, string &datain, const string &delimite
 
 istream& operator >>(istream& ins, City& city)
 {
+	/* read line and parse string to get four variables*/
 	string data;
 	getline(ins, data, '\n');
 	vector<string> vecdata;
@@ -56,6 +57,7 @@ istream& operator >>(istream& ins, City& city)
 
 ostream& operator <<(ostream& outs, const City& city)
 {
+	/* print name and state */
 	outs << "*" << city.name << " " << city.state;
 	return outs;
 }

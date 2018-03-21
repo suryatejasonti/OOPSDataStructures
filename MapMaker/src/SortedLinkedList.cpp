@@ -7,6 +7,17 @@ SortedLinkedList::SortedLinkedList(Node* head)
 	this->head = head;
 }
 
+SortedLinkedList::~SortedLinkedList()
+{
+	Node * current = head;
+	while(current != nullptr)
+	{
+		Node * next = current->next;
+		delete current;
+		current = next;
+	}
+}
+
 void SortedLinkedList::insert(Node* node)
 {
 	Node * current;
@@ -31,17 +42,17 @@ void SortedLinkedList::insert(Node* node)
 		current->next = node;
 	}
 }
-
-ostream& operator <<(ostream& outs, const SortedLinkedList& list)
+void removedupilicates(const SortedLinkedList& list, Node * head)
 {
-	Node * current = list.head;
+	Node * current = head;
 
-	/*Remove dupilicates */
+
 	Node* next_next;
 
 	/* do nothing if the list is empty */
 	if (current == nullptr)
-	   return outs;
+	   return;
+	/*Remove dupilicates */
 
 	/* Traverse the list till last node */
 	while (current->next != NULL)
@@ -51,7 +62,7 @@ ostream& operator <<(ostream& outs, const SortedLinkedList& list)
 	   {
 		   /* The sequence of steps is important*/
 		   next_next = current->next->next;
-		   free(current->next);
+		   delete current->next;
 		   current->next = next_next;
 	   }
 	   else /* This is tricky: only advance if no deletion */
@@ -59,67 +70,64 @@ ostream& operator <<(ostream& outs, const SortedLinkedList& list)
 		  current = current->next;
 	   }
 	}
-
-	current = list.head;
-
-
+	current = head;
+	/*Remove space not sufficient elements */
 	int lengthold, lengthnew;
 	lengthold = current->get_col() + current->get_name().length() + current->get_state().length();
 
 	while(current->next != nullptr)
 	{
+		/* Get the new length */
 		lengthnew = current->next->get_col();
 
 		if(lengthnew <= lengthold && current->get_row() == current->next->get_row())
 		{
+			/* Remove the element*/
 			next_next = current->next->next;
-			free(current->next);
+			delete current->next;
 			current->next = next_next;
 		}
 		else
 		{
+			/* go to next element and get the old length */
 			current = current->next;
 			lengthold = current->get_col() + current->get_name().length() + current->get_state().length();
 			if(current->get_name() != "")
 				lengthold += 1;
 		}
 	}
+}
 
-	current = list.head;
+ostream& operator <<(ostream& outs, const SortedLinkedList& list)
+{
+	Node * current = list.head;
 
-	int row =current->get_row();
-	int oldcol = current->get_col();
-	int temp=0;
+	removedupilicates(list, current);
+
+	int row =current->get_row(), oldcol = current->get_col(), newcol=0;
+
 	while (current->next != nullptr)
 	{
-		outs << setw(oldcol-temp);
-
-		if(current->get_name() == "")
-		{
-			outs  << *current;
-		}
-		else
-		{
-			outs << current->get_city();
-		}
+		outs << setw(oldcol-newcol);
+		outs  << *current;
 
 		if(row < current->next->get_row())
 		{
 			for(int i=0;i<current->next->get_row()-row;i++)
 				outs << endl;
-			oldcol = 0 ;
+			oldcol = 0;
 		}
 		row = current->next->get_row();
-		temp=oldcol;
+		newcol=oldcol;
 		oldcol = current->next->get_col();
 		if(current->get_name() != "")
 		{
-			temp += current->get_name().length() + current->get_state().length()+1;
+			newcol += current->get_name().length() + current->get_state().length()+1;
 		}
 		current = current->next;
-
 	}
-	outs << setw(oldcol-temp);
+
+	outs << setw(oldcol-newcol);
 	outs  << *current;
 	return outs;
 }
