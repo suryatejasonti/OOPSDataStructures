@@ -24,12 +24,6 @@ Node::Node(Coordinate coordinate)
 	this->coordinate = coordinate;
 }
 
-Node::~Node()
-{
-	coordinate.~Coordinate();
-	city.~City();
-}
-
 void Node::convert_coordinate(const Coordinate& coordinate)
 {
     row = round(2*(Coordinate::MAX_LATITUDE - coordinate.get_latitude()));

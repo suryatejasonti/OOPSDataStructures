@@ -53,12 +53,17 @@ void removedupilicates(const SortedLinkedList& list, Node * head)
 	if (current == nullptr)
 	   return;
 	/*Remove dupilicates */
-
+	/*Remove space not sufficient elements */
+	int lengthold, lengthnew;
+	lengthold = current->get_col() + current->get_name().length() + current->get_state().length();
 	/* Traverse the list till last node */
 	while (current->next != NULL)
 	{
+		/* Get the new length */
+		lengthnew = current->next->get_col();
 	   /* Compare current node with next node */
-	   if (current->get_col() == current->next->get_col() && current->get_row() == current->next->get_row())
+	   if ((current->get_col() == current->next->get_col() && current->get_row() == current->next->get_row())
+			   || (lengthnew <= lengthold && current->get_row() == current->next->get_row()))
 	   {
 		   /* The sequence of steps is important*/
 		   next_next = current->next->next;
@@ -68,33 +73,10 @@ void removedupilicates(const SortedLinkedList& list, Node * head)
 	   else /* This is tricky: only advance if no deletion */
 	   {
 		  current = current->next;
+		  lengthold = current->get_col() + current->get_name().length() + current->get_state().length();
+		  if(current->get_name() != "")
+			lengthold += 1;
 	   }
-	}
-	current = head;
-	/*Remove space not sufficient elements */
-	int lengthold, lengthnew;
-	lengthold = current->get_col() + current->get_name().length() + current->get_state().length();
-
-	while(current->next != nullptr)
-	{
-		/* Get the new length */
-		lengthnew = current->next->get_col();
-
-		if(lengthnew <= lengthold && current->get_row() == current->next->get_row())
-		{
-			/* Remove the element*/
-			next_next = current->next->next;
-			delete current->next;
-			current->next = next_next;
-		}
-		else
-		{
-			/* go to next element and get the old length */
-			current = current->next;
-			lengthold = current->get_col() + current->get_name().length() + current->get_state().length();
-			if(current->get_name() != "")
-				lengthold += 1;
-		}
 	}
 }
 

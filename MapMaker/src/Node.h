@@ -18,8 +18,6 @@ public:
 
 	Node(City city);
 
-	~Node();
-
     Node *next;  // pointer to the next node in the list
 
     int get_row() const;
