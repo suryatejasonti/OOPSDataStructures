@@ -26,10 +26,9 @@ void SortedLinkedList::insert(Node* node)
 		{
 			current = current->next;
 		}
-		if(current->next != nullptr && node->get_row() == current->next->get_row()
-				&& node->get_col() == current->next->get_col())
-			return;
-
+		cout << "i am here "
+					<< current->get_row() <<" " << current->get_col()
+					<< " " << current->get_name() << " " << current->get_state() << endl;
 		node->next = current->next;
 		current->next = node;
 	}
@@ -37,7 +36,31 @@ void SortedLinkedList::insert(Node* node)
 
 ostream& operator <<(ostream& outs, const SortedLinkedList& list)
 {
-	Node * current;
+	Node * current = list.head;
+
+	/*Remove dupilicates */
+	Node* next_next;
+
+	/* do nothing if the list is empty */
+	if (current == nullptr)
+	   return outs;
+
+	/* Traverse the list till last node */
+	while (current->next != NULL)
+	{
+	   /* Compare current node with next node */
+	   if (current->get_col() == current->next->get_col() || (current->get_state() != "" && current->get_state() == current->next->get_state()))
+	   {
+		   /* The sequence of steps is important*/
+		   next_next = current->next->next;
+		   free(current->next);
+		   current->next = next_next;
+	   }
+	   else /* This is tricky: only advance if no deletion */
+	   {
+		  current = current->next;
+	   }
+	}
 
 	current = list.head;
 	int row =current->get_row();
@@ -46,6 +69,7 @@ ostream& operator <<(ostream& outs, const SortedLinkedList& list)
 	while (current->next != nullptr)
 	{
 		outs << setw(oldcol-temp);
+
 		if(current->get_name() == "")
 		{
 			outs  << *current;
