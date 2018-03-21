@@ -5,7 +5,7 @@
 
 using namespace std;
 
-const string INPUT_FILE_NAME = "RomanNumeral.txt";
+const string INPUT_FILE_NAME = "/Users/suryasonti/eclipse-workspace/OOPSDataStructures/RomanNumeral/src/RomanNumeral.txt";
 
 void test1();
 void test2(ifstream& in);
