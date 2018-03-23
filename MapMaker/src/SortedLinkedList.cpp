@@ -86,30 +86,30 @@ ostream& operator <<(ostream& outs, const SortedLinkedList& list)
 
 	removedupilicates(list, current);
 
-	int row =current->get_row(), oldcol = current->get_col(), newcol=0;
+	int oldcol, newcol;
 
 	while (current->next != nullptr)
 	{
-		outs << setw(oldcol-newcol);
-		outs  << *current;
+		newcol = current->get_col();
 
-		if(row < current->next->get_row())
+		outs << setw(newcol-oldcol);
+		outs  << *current;
+		oldcol = newcol;
+		if(current->get_name() != "")
 		{
-			for(int i=0;i<current->next->get_row()-row;i++)
+			oldcol += current->get_name().length() + current->get_state().length()+1;
+		}
+		if(current->get_row() < current->next->get_row())
+		{
+			for(int i=0;i<current->next->get_row()-current->get_row();i++)
 				outs << endl;
 			oldcol = 0;
 		}
-		row = current->next->get_row();
-		newcol=oldcol;
-		oldcol = current->next->get_col();
-		if(current->get_name() != "")
-		{
-			newcol += current->get_name().length() + current->get_state().length()+1;
-		}
 		current = current->next;
-	}
 
-	outs << setw(oldcol-newcol);
+	}
+	newcol = current->get_col();
+	outs << setw(newcol-oldcol);
 	outs  << *current;
 	return outs;
 }

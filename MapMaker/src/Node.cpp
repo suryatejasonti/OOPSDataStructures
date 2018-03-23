@@ -59,8 +59,8 @@ string Node::get_state() const
 ostream& operator <<(ostream& outs, const Node& node)
 {
 	if(node.name != "")
-		outs << node.city;
+		outs << node.city ;
 	else
-		outs << node.coordinate;
+		outs << node.coordinate ;
 	return outs;
 }
