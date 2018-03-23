@@ -9,12 +9,11 @@ SortedLinkedList::SortedLinkedList(Node* head)
 
 SortedLinkedList::~SortedLinkedList()
 {
-	Node * current = head;
-	while(current != nullptr)
+	while(head != nullptr)
 	{
-		Node * next = current->next;
-		delete current;
-		current = next;
+		Node * next = head->next;
+		delete head;
+		head = next;
 	}
 }
 
@@ -106,7 +105,6 @@ ostream& operator <<(ostream& outs, const SortedLinkedList& list)
 			oldcol = 0;
 		}
 		current = current->next;
-
 	}
 	newcol = current->get_col();
 	outs << setw(newcol-oldcol);
