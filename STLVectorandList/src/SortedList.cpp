@@ -75,8 +75,7 @@ void SortedList::reverse()
 	while(it != end())
 	{
 		list<Node>::insert(begin(), *it);
-		list<Node>::erase(it);
-		it++;
+		it = list<Node>::erase(it);
 	}
 
 }
